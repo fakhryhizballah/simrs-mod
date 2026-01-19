@@ -27,30 +27,21 @@ app.use(favicon(path.join(__dirname + "/public/", "favicon.ico")));
 app.use(
     "/asset/js/",
     express.static(path.join(__dirname + "/public/js/"), {
-        setHeaders: (res, path, stat) => {
-            res.set("Cache-Control", "public, max-age=" + maxAge);
-            res.set("ETag", package.version); // add etag
-        },
     })
 );
 app.use(
     "/asset/img/",
     express.static(path.join(__dirname + "/public/img/"), {
-        setHeaders: (res, path, stat) => {
-            res.set("Cache-Control", "public, max-age=86400");
-            res.set("ETag", package.version); // add etag
-        },
     })
 );
 app.use(
     "/asset/css/",
     express.static(path.join(__dirname + "/public/css/"), {
-        setHeaders: (res, path, stat) => {
-            res.set("Cache-Control", "public, max-age=" + maxAge);
-            res.set("ETag", package.version); // add etag
-        },
+
     })
 );
+
+app.use("/", require("./routes/index"));
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
