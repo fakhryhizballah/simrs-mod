@@ -1,3 +1,5 @@
+const Users = require('../modelsMongoose/Users');
+const Menus = require('../modelsMongoose/Menus');
 module.exports = {
     login: (req, res) => {
         let data = {
@@ -20,10 +22,46 @@ module.exports = {
             res.render("./layouts/main", data);
         });
     },
-    menu: (req, res) => {
+    menu: async (req, res) => {
+        let findUser = await await Users.aggregate([
+            {
+                // 1. Cari user yang sesuai
+                $match: {
+                    username: req.user.username,
+                    'akses': { $exists: true, $ne: {} }
+                }
+            },
+            {
+                // 2. Ubah objek 'akses' menjadi array [ {k: "penyakit", v: "true"}, ... ]
+                $project: {
+                    aksesArray: { $objectToArray: "$akses" }
+                }
+            },
+            {
+                // 3. Filter array tersebut, ambil yang value-nya (v) adalah "true"
+                $project: {
+                    aksesFiltered: {
+                        $filter: {
+                            input: "$aksesArray",
+                            as: "item",
+                            cond: { $eq: ["$$item.v", "true"] }
+                        }
+                    }
+                }
+            },
+            {
+                // 4. Ubah kembali array yang sudah difilter menjadi objek
+                $project: {
+                    _id: 0,
+                    akses: { $arrayToObject: "$aksesFiltered" }
+                }
+            }
+        ]);
+        let findMenu = await Menus.find({ hak_akses: Object.keys(findUser[0].akses) });
         let data = {
             title: "Menu Utama | SIMRS",
         };
+        data.dataMenu = findMenu.map(x => x.menu).join('');
 
         res.render("./menus/menu-grid", data, (err, menuGridHtml) => {
             if (err) {
@@ -32,6 +70,38 @@ module.exports = {
             }
 
             data.body = menuGridHtml;
+            res.render("./layouts/main", data);
+        });
+    },
+    inacbg_klaim: (req, res) => {
+        let data = {
+            title: "Dashboard | SIMRS",
+            script: "/asset/js/inacbg_klaim.js"
+        };
+
+        res.render("./dashboard/inacbg_klaim", data, (err, dashboardHtml) => {
+            if (err) {
+                console.error("Error rendering dashboard/inacbg_klaim.ejs:", err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            data.body = dashboardHtml;
+            res.render("./layouts/main", data);
+        });
+    },
+    inacbg_klaim_kirim: (req, res) => {
+        let data = {
+            title: "Dashboard | SIMRS",
+            script: "/asset/js/inacbg_klaim_kirim.js"
+        };
+
+        res.render("./dashboard/inacbg_klaim_kirim", data, (err, dashboardHtml) => {
+            if (err) {
+                console.error("Error rendering dashboard/inacbg_klaim_kirim.ejs:", err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            data.body = dashboardHtml;
             res.render("./layouts/main", data);
         });
     },

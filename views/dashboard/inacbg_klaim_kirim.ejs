@@ -1,0 +1,261 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-blue-600 px-6 py-4">
+            <h2 class="text-xl font-bold text-white">Kirim Data Klaim</h2>
+            <p class="text-blue-100 text-sm">Silahkan lengkapi data klaim di bawah ini.</p>
+        </div>
+
+        <form class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Section 1: Data Identitas & Registrasi -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-gray-800 border-b pb-2 flex items-center">
+                        <span class="w-2 h-6 bg-blue-500 rounded mr-2"></span>
+                        Informasi Registrasi
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Nomor SEP</label>
+                            <input type="text" name="nomor_sep" id="nomor_sep" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Nomor RM</label>
+                            <input type="text" name="nomor_rm" id="nomor_rm" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border font-mono">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600">Nomor Kartu (JKN)</label>
+                        <input type="text" name="nomor_kartu" id="nomor_kartu" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600">Nama Pasien</label>
+                        <input type="text" name="nama_pasien" id="nama_pasien" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border uppercase">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Tgl Lahir</label>
+                            <input type="date" name="tgl_lahir" id="tgl_lahir" value="2000-01-01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Gender</label>
+                            <select name="gender" id="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                                <option value="1" selected>Laki-laki</option>
+                                <option value="2" >Perempuan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 border-t pt-4 mt-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Tgl Masuk</label>
+                            <input type="datetime-local" name="tgl_masuk" id="tgl_masuk" value="2025-08-22T08:55" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Tgl Pulang</label>
+                            <input type="datetime-local" name="tgl_pulang" id="tgl_pulang" value="2025-08-22T09:55" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600">Nama Dokter</label>
+                        <input type="text" name="nama_dokter" id="nama_dokter" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                    </div>
+                </div>
+
+                <!-- Section 2: Detail Perawatan -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-gray-800 border-b pb-2 flex items-center">
+                        <span class="w-2 h-6 bg-green-500 rounded mr-2"></span>
+                        Detail Perawatan
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Jenis Rawat</label>
+                            <select name="jenis_rawat" id="jenis_rawat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                                <option value="1" selected>Rawat Inap</option>
+                                <option value="2">Rawat Jalan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Kelas Rawat</label>
+                            <select name="kelas_rawat" id="kelas_rawat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                                <option value="1">Kelas 1</option>
+                                <option value="2">Kelas 2</option>
+                                <option value="3" selected>Kelas 3</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Cara Masuk</label>
+                            <select name="cara_masuk" id="cara_masuk" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                                <option value="gp" selected>Rujukan FKTP</option>
+                                <option value="hosp-trans">Rujukan FKRTL</option>
+                                <option value="mp">Rujukan Spesialis</option>
+                                <option value="outp">Dari Rawat Jalan</option>
+                                <option value="inp">Dari Rawat Inap</option>
+                                <option value="emd">Dari Rawat Darurat</option>
+                                <option value="born">Lahir di RS, nursing</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Discharge Status</label>
+                            <select name="discharge_status" id="discharge_status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                                <option value="1" selected>Atas persetujuan dokter</option>
+                                <option value="2">Dirujuk</option>
+                                <option value="3">Atas permintaan sendiri</option>
+                                <option value="4">Meninggal</option>
+                                <option value="4">Meninggal</option>
+                                <option value="5">Lain-lain</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Sistole / Diastole</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" name="sistole" id="sistole" value="110" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border text-center">
+                                <span>/</span>
+                                <input type="number" name="diastole" id="diastole" value="60" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border text-center">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">Berat Lahir (gram)</label>
+                            <input type="number" name="birth_weight" id="birth_weight" value="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Indikator Khusus -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-gray-800 border-b pb-2 flex items-center">
+                        <span class="w-2 h-6 bg-purple-500 rounded mr-2"></span>
+                        Indikator & Coder
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">ADL Sub Acute</label>
+                            <input type="number" name="adl_sub_acute" id="adl_sub_acute" value="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">ADL Chronic</label>
+                            <input type="number" name="adl_chronic" id="adl_chronic" value="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">ICU Indikator</label>
+                            <input type="number" name="icu_indikator" id="icu_indikator" value="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-600">ICU LOS</label>
+                            <input type="number" name="icu_los" id="icu_los" value="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600">Coder NIK</label>
+                        <input readonly type="text" name="coder_nik" id="coder_nik" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarif RS Section (Nested Data) -->
+            <div class="mt-10">
+                <h3 class="font-bold text-gray-800 border-b pb-2 mb-4 flex items-center">
+                    <span class="w-2 h-6 bg-red-500 rounded mr-2"></span>
+                    Rincian Tarif Rumah Sakit
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Prosedur Non Bedah</label>
+                        <input type="number" name="tarif_rs[prosedur_non_bedah]" value="300000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Prosedur Bedah</label>
+                        <input type="number" name="tarif_rs[prosedur_bedah]" value="20000000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Konsultasi</label>
+                        <input type="number" name="tarif_rs[konsultasi]" value="300000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Tenaga Ahli</label>
+                        <input type="number" name="tarif_rs[tenaga_ahli]" value="200000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Keperawatan</label>
+                        <input type="number" name="tarif_rs[keperawatan]" value="80000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Penunjang</label>
+                        <input type="number" name="tarif_rs[penunjang]" value="1000000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Radiologi</label>
+                        <input type="number" name="tarif_rs[radiologi]" value="500000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Laboratorium</label>
+                        <input type="number" name="tarif_rs[laboratorium]" value="600000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Kamar</label>
+                        <input type="number" name="tarif_rs[kamar]" value="6000000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Obat</label>
+                        <input type="number" name="tarif_rs[obat]" value="100000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Alkes</label>
+                        <input type="number" name="tarif_rs[alkes]" value="500000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">BMHP</label>
+                        <input type="number" name="tarif_rs[bmhp]" value="400000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                </div>
+                 <div class="mt-4 flex justify-between items-center text-sm text-gray-500" >
+                    <span>Menyatakan benar bahwa data tarif yang tersebut di atas adalah benar sesuai dengan kondisi yang sesungguhnya</span>
+                 </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600">Dializer Single Use</label>
+                    <select name="dializer_single_use" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                        <option value="1">single use</option>
+                        <option value="0" selected>multiple use</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600">Kantong Darah</label>
+                    <input type="number" name="kantong_darah" value="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600">Payor Code</label>
+                    <input readonly type="text" name="payor_cd" value="JKN" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border uppercase font-bold text-blue-700">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-200 transform hover:-translate-y-1">
+                        Kirim Data Klaim
+                    </button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
