@@ -6,7 +6,7 @@
             <p class="text-blue-100 text-sm">Silahkan lengkapi data klaim di bawah ini.</p>
         </div>
 
-        <form class="p-6">
+        <form id="form_kirim_klaim" class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- Section 1: Data Identitas & Registrasi -->
@@ -180,51 +180,51 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Prosedur Non Bedah</label>
-                        <input type="number" name="tarif_rs[prosedur_non_bedah]" value="300000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="prosedur_non_bedah" name="tarif_rs[prosedur_non_bedah]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Prosedur Bedah</label>
-                        <input type="number" name="tarif_rs[prosedur_bedah]" value="20000000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="prosedur_bedah" name="tarif_rs[prosedur_bedah]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Konsultasi</label>
-                        <input type="number" name="tarif_rs[konsultasi]" value="300000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="konsultasi" name="tarif_rs[konsultasi]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Tenaga Ahli</label>
-                        <input type="number" name="tarif_rs[tenaga_ahli]" value="200000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="tenaga_ahli" name="tarif_rs[tenaga_ahli]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Keperawatan</label>
-                        <input type="number" name="tarif_rs[keperawatan]" value="80000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="keperawatan" name="tarif_rs[keperawatan]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Penunjang</label>
-                        <input type="number" name="tarif_rs[penunjang]" value="1000000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="penunjang" name="tarif_rs[penunjang]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Radiologi</label>
-                        <input type="number" name="tarif_rs[radiologi]" value="500000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="radiologi" name="tarif_rs[radiologi]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Laboratorium</label>
-                        <input type="number" name="tarif_rs[laboratorium]" value="600000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="laboratorium" name="tarif_rs[laboratorium]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Kamar</label>
-                        <input type="number" name="tarif_rs[kamar]" value="6000000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="kamar" name="tarif_rs[kamar]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Obat</label>
-                        <input type="number" name="tarif_rs[obat]" value="100000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="obat" name="tarif_rs[obat]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Alkes</label>
-                        <input type="number" name="tarif_rs[alkes]" value="500000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="alkes" name="tarif_rs[alkes]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">BMHP</label>
-                        <input type="number" name="tarif_rs[bmhp]" value="400000" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                        <input type="number" id="bmhp" name="tarif_rs[bmhp]" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                 </div>
                  <div class="mt-4 flex justify-between items-center text-sm text-gray-500" >
