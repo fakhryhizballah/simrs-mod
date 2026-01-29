@@ -5,13 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title || 'Aplikasi' %></title>
     <script src="https://cdn.tailwindcss.com"></script>
+     <% if (typeof hrefhead != 'undefined') { %>
+        <% hrefhead.forEach(function(item) { %>
+            <link href="<%= item %>" rel="stylesheet" />
+        <% }); %>
+    <% } %>
 </head>
 <body class="bg-gray-100">
     <%- include('../partials/header') %>
     <main>
         <%- body %>
     </main>
+    <script>
+    function getCookieValue(name) {
+    let value = document.cookie.split(';').filter(item => item.trim().startsWith(name + '='))[0];
+    if (value) {
+        value = decodeURIComponent(value.split('=')[1]);
+    } else {
+        value = null;
+    }
+    return value;
+}
+    </script>
     <%- include('../partials/footer') %>
-    <script src="<%= typeof script != 'undefined' ? script : '/' %>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <% if (typeof script != 'undefined') { %>
+        <% script.forEach(function(item) { %>
+            <script src="<%= item %>"></script>
+        <% }); %>
+    <% } %>
 </body>
 </html>

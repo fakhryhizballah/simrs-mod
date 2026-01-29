@@ -1,12 +1,3 @@
-function getCookieValue(name) {
-    let value = document.cookie.split(';').filter(item => item.trim().startsWith(name + '='))[0];
-    if (value) {
-        value = decodeURIComponent(value.split('=')[1]);
-    } else {
-        value = null;
-    }
-    return value;
-}
 let coder = JSON.parse(sessionStorage.getItem('coder'));
 let token = getCookieValue('token');
 let API_URL = getCookieValue('API_URL');
@@ -42,8 +33,7 @@ async function intal() {
     let sistole = document.getElementById('sistole')
     let diastole = document.getElementById('diastole')
 
-    if (inacbg_klaim.bridging_sep.no_sep != '-'){
-        console.log(inacbg_klaim.bridging_sep.klsrawat)
+    if (inacbg_klaim.bridging_sep.no_sep != '-') {
         kelas_rawat.value = inacbg_klaim.bridging_sep.klsrawat;
     }
 
@@ -51,6 +41,39 @@ async function intal() {
         tgl_masuk.value = new Date(inacbg_klaim.tgl_registrasi).toISOString().slice(0, 16).replace('T', ' ');
         tgl_pulang.value = new Date(inacbg_klaim.tgl_registrasi).toISOString().slice(0, 16).replace('T', ' ');
         nama_dokter.value = inacbg_klaim.dokter.nm_dokter
+        let dataRalan = await fetch(
+            API_URL + "/api/inacbg/ralan/dpjp?no_rawat=" + inacbg_klaim.no_rawat,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            }
+        )
+        dataRalan = await dataRalan.json();
+        try {
+            prosedur_non_bedah.value = dataRalan.data.biaya.totalBiayaNonBedah
+            prosedur_bedah.value = dataRalan.data.biaya.prosedur_bedah
+            konsultasi.value = dataRalan.data.biaya.konsultasi
+            tenaga_ahli.value = dataRalan.data.biaya.tenaga_ahli
+            keperawatan.value = dataRalan.data.biaya.keperawatan
+            penunjang.value = 0
+            radiologi.value = dataRalan.data.biaya.radiologi
+            laboratorium.value = dataRalan.data.biaya.laboratorium
+            kamar.value = dataRalan.data.biaya.kamar
+            obat.value = dataRalan.data.biaya.obat
+            alkes.value = dataRalan.data.biaya.sewa_alat
+            bmhp.value = dataRalan.data.biaya.bmhp
+            if (dataRalan.data.hasilTensi != '-') {
+                let dataTensi = dataRalan.data.hasilTensi.split('/')
+                sistole.value = dataTensi[0]
+                diastole.value = dataTensi[1]
+            }
+
+        } catch (error) {
+
+        }
     }else{
         let dataRanap = await fetch(
             API_URL + "/api/inacbg/ranap/dpjp?no_rawat=" + inacbg_klaim.no_rawat,
@@ -63,7 +86,6 @@ async function intal() {
             }
         )
         dataRanap = await dataRanap.json();
-        console.log(dataRanap.data)
         try {
             nama_dokter.value = dataRanap.data.nmDPJP
             tgl_masuk.value = new Date(dataRanap.data.sttrawat.tgl_masuk).toISOString().slice(0, 16).replace('T', ' ');
@@ -99,8 +121,80 @@ document.getElementById('form_kirim_klaim').addEventListener('submit', async fun
     event.preventDefault();
     let formData = new FormData(event.target);
     let dataFrom = Object.fromEntries(formData)
-    console.log(dataFrom)
-    new_claim(dataFrom)
+    let new_claim = {
+        "metadata": {
+            "method": "new_claim"
+        },
+        "data": {
+            "nomor_kartu": dataFrom.nomor_kartu,
+            "nomor_sep": dataFrom.nomor_sep,
+            "nomor_rm": dataFrom.nomor_rm,
+            "nama_pasien": dataFrom.nama_pasien,
+            "tgl_lahir": dataFrom.tgl_lahir,
+            "gender": dataFrom.gender
+        }
+    }
+    await claim(new_claim)
+    let set_claim_data = {
+        "metadata": {
+            "method": "set_claim_data",
+            "nomor_sep": dataFrom.nomor_sep
+        },
+        "data": {
+            "nomor_sep": dataFrom.nomor_sep,
+            "nomor_kartu": dataFrom.nomor_kartu,
+            "tgl_masuk": dataFrom.tgl_masuk,
+            "tgl_pulang": dataFrom.tgl_pulang,
+            "cara_masuk": dataFrom.cara_masuk,
+            "jenis_rawat": dataFrom.jenis_rawat,
+            "kelas_rawat": dataFrom.kelas_rawat,
+            "adl_sub_acute": dataFrom.adl_sub_acute,
+            "adl_chronic": dataFrom.adl_chronic,
+            "icu_indikator": dataFrom.icu_indikator,
+            "icu_los": dataFrom.icu_los,
+            "upgrade_class_ind": dataFrom.upgrade_class_ind,
+            "add_payment_pct": 0,
+            "add_payment_amt": 0,
+            "birth_weight": dataFrom.birth_weight,
+            "sistole": dataFrom.sistole,
+            "diastole": dataFrom.diastole,
+            "discharge_status": dataFrom.discharge_status,
+            "tarif_rs": {
+                "prosedur_non_bedah": dataFrom.tarif_rs_prosedur_non_bedah,
+                "prosedur_bedah": dataFrom.tarif_rs_prosedur_bedah,
+                "konsultasi": dataFrom.tarif_rs_konsultasi,
+                "tenaga_ahli": dataFrom.tarif_rs_tenaga_ahli,
+                "keperawatan": dataFrom.tarif_rs_keperawatan,
+                "penunjang": dataFrom.tarif_rs_penunjang,
+                "radiologi": dataFrom.tarif_rs_radiologi,
+                "laboratorium": dataFrom.tarif_rs_laboratorium,
+                "pelayanan_darah": dataFrom.tarif_rs_pelayanan_darah,
+                "rehabilitasi": dataFrom.rehabilitasi,
+                "kamar": dataFrom.tarif_rs_kamar,
+                "rawat_intensif": dataFrom.tarif_rs_rawat_intensif,
+                "obat": dataFrom.tarif_rs_obat,
+                "obat_kronis": dataFrom.tarif_rs_obat_kronis,
+                "obat_kemoterapi": dataFrom.tarif_rs_obat_kemoterapi,
+                "alkes": dataFrom.tarif_rs_alkes,
+                "bmhp": dataFrom.tarif_rs_bmhp,
+                "sewa_alat": dataFrom.tarif_rs_sewa_alat
+            },
+            "nomor_kartu_t": dataFrom.nomor_kartu_t,
+            "dializer_single_use": dataFrom.dializer_single_use,
+            "kantong_darah": dataFrom.kantong_darah,
+            "alteplase_ind": dataFrom.alteplase_ind,
+            "tarif_poli_eks": dataFrom.tarif_poli_eks,
+            "nama_dokter": dataFrom.nama_dokter,
+            "kode_tarif": dataFrom.kode_tarif,
+            "payor_id": 3,
+            "payor_cd": dataFrom.payor_cd,
+            "cob_cd": "003",
+            "coder_nik": coder.nik
+        }
+    }
+    console.log(set_claim_data)
+    let set_claim_data_send = await claim(set_claim_data)
+    console.log(set_claim_data_send)
     // let response = await fetch(
     //     API_URL + "/api/inacbg/klaim",
     //     {
@@ -122,23 +216,8 @@ document.getElementById('form_kirim_klaim').addEventListener('submit', async fun
 });
 
 
-function new_claim(dataFrom) {
-    console.log(dataFrom)
-    let databody =
-    {
-        "metadata": {
-            "method": "new_claim"
-        },
-        "data": {
-            "nomor_kartu": dataFrom.nomor_kartu,
-            "nomor_sep": dataFrom.nomor_sep,
-            "nomor_rm": dataFrom.nomor_rm,
-            "nama_pasien": dataFrom.nama_pasien,
-            "tgl_lahir": dataFrom.tgl_lahir,
-            "gender": dataFrom.gender
-        }
-    }
-    let response = fetch(
+async function claim(databody) {
+    let response = await fetch(
         API_URL + "/api/inacbg/ws",
         {
             method: 'POST',
@@ -149,11 +228,6 @@ function new_claim(dataFrom) {
             body: JSON.stringify(databody)
         }
     )
-    response = response.json();
-    if (response.status == 'success') {
-        alert('Data berhasil dikirim');
-        window.location.href = '/dashboard/inacbg_klaim';
-    } else {
-        alert('Gagal mengirim data, silahkan coba lagi');
-    }
+    response = await response.json();
+    return response
 }

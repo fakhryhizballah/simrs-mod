@@ -1,0 +1,14 @@
+    /* Custom Styling Select2 agar menyatu dengan Tailwind */
+    .select2-container--default .select2-selection--multiple {
+        border: 1px solid #d1d5db !important;
+        border-radius: 0.5rem !important;
+        padding: 4px !important;
+    }
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+        border-color: #3b82f6 !important;
+        ring: 2px !important;
+    }
+    /* Sembunyikan tag default Select2 karena kita pakai custom list di bawahnya */
+    .select2-selection__rendered {
+        display: block !important;
+    }

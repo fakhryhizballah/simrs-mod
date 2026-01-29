@@ -1,11 +1,8 @@
-<!-- Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
 <div class="max-w-4xl mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">Input Diagnosa & Prosedur</h2>
         
-        <form action="/klaim/update-diagnosa" method="POST" class="space-y-8">
+        <form id="form_diagnosa" class="space-y-8">
             
             <!-- SEKSI DIAGNOSA -->
             <div class="space-y-4">
@@ -14,17 +11,13 @@
                         Cari IDRG Diagnosa Set
                     </label>
                     <select id="idrg_diagnosa_set" name="idrg_diagnosa_set[]" class="w-full" multiple="multiple">
-                        <option value="A00.0">A00.0 - Cholera due to Vibrio cholerae 01</option>
-                        <option value="E11.9">E11.9 - Type 2 diabetes mellitus</option>
-                        <option value="I10">I10 - Essential (primary) hypertension</option>
-                        <option value="K29.7">K29.7 - Gastritis, unspecified</option>
                     </select>
                 </div>
 
                 <!-- Hasil List Diagnosa -->
                 <div id="diagnosa-list-container" class="hidden">
                     <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Diagnosa Terpilih:</h3>
-                    <div id="diagnosa-tags" class="flex flex-wrap gap-2">
+                    <div id="diagnosa-tags" class="flex flex-col gap-1">
                         <!-- Rendered by JS -->
                     </div>
                 </div>
@@ -73,91 +66,3 @@
         </form>
     </div>
 </div>
-
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        // --- LOGIC DIAGNOSA ---
-        $('#idrg_diagnosa_set').select2({
-            placeholder: " Ketik kode atau nama diagnosa...",
-            width: '100%'
-        }).on('change', function() {
-            const selectedData = $(this).select2('data');
-            const container = $('#diagnosa-list-container');
-            const tagBox = $('#diagnosa-tags');
-            
-            tagBox.empty();
-            if (selectedData.length > 0) {
-                container.removeClass('hidden');
-                selectedData.forEach(item => {
-                    tagBox.append(`
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-200">
-                            ${item.text}
-                        </span>
-                    `);
-                });
-            } else {
-                container.addClass('hidden');
-            }
-        });
-
-        // --- LOGIC PROSEDUR ---
-        $('#idrg_procedure_set').select2({
-            placeholder: " Ketik kode atau nama prosedur...",
-            width: '100%'
-        }).on('change', function() {
-            const selectedData = $(this).select2('data');
-            const container = $('#procedure-table-container');
-            const tableBody = $('#procedure-list-body');
-            
-            // Simpan nilai jumlah yang sudah diinput agar tidak hilang saat tambah item baru
-            const existingQty = {};
-            tableBody.find('input').each(function() {
-                existingQty[$(this).data('code')] = $(this).val();
-            });
-
-            tableBody.empty();
-            if (selectedData.length > 0) {
-                container.removeClass('hidden');
-                selectedData.forEach(item => {
-                    const val = existingQty[item.id] || 1;
-                    tableBody.append(`
-                        <tr>
-                            <td class="px-4 py-3 font-medium text-gray-700">${item.text}</td>
-                            <td class="px-4 py-3">
-                                <input type="number" 
-                                       name="procedure_qty[${item.id}]" 
-                                       data-code="${item.id}"
-                                       value="${val}" 
-                                       min="1" 
-                                       class="w-20 rounded border-gray-300 p-1 text-center focus:ring-blue-500 focus:border-blue-500 border">
-                            </td>
-                        </tr>
-                    `);
-                });
-            } else {
-                container.addClass('hidden');
-            }
-        });
-    });
-</script>
-
-<style>
-    /* Custom Styling Select2 agar menyatu dengan Tailwind */
-    .select2-container--default .select2-selection--multiple {
-        border: 1px solid #d1d5db !important;
-        border-radius: 0.5rem !important;
-        padding: 4px !important;
-    }
-    .select2-container--default.select2-container--focus .select2-selection--multiple {
-        border-color: #3b82f6 !important;
-        ring: 2px !important;
-    }
-    /* Sembunyikan tag default Select2 karena kita pakai custom list di bawahnya */
-    .select2-selection__rendered {
-        display: block !important;
-    }
-</style>
