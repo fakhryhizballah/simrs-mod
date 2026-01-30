@@ -1,4 +1,5 @@
 let coder = JSON.parse(sessionStorage.getItem('coder'));
+import { getCookieValue } from "./cookie.js";
 let token = getCookieValue('token');
 let API_URL = getCookieValue('API_URL');
 console.log(token)

@@ -1,5 +1,7 @@
-// let API_URL = getCookieValue('API_URL');
-// let token = getCookieValue('token');
+import { getCookieValue } from "./cookie.js";
+import { setCache, getCache } from "./indexdb.js";
+let API_URL = getCookieValue('API_URL');
+let token = getCookieValue('token');
 let diagnosaIDRG = [];
 // --- LOGIC DIAGNOSA ---
 $('#idrg_diagnosa_set').select2({
@@ -110,20 +112,25 @@ async function diagnosa_set(params) {
     const selectEl = $('#idrg_diagnosa_set');
     for (const code of params) {
         try {
-            let res = await fetch(API_URL + '/api/inacbg/ws', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify({
-                    "metadata": { "method": "search_diagnosis_inagrouper" },
-                    "data": { "keyword": code }
-                })
-            });
+            let rawData = await getCache('search_diagnosis_inagrouper:' + code, 60 * 60 * 24 * 7);
+            if (!rawData) {
+                let res = await fetch(API_URL + '/api/inacbg/ws', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        "metadata": { "method": "search_diagnosis_inagrouper" },
+                        "data": { "keyword": code }
+                    })
+                });
 
-            const response = await res.json();
-            const rawData = response.data.response.data;
+                const response = await res.json();
+                rawData = response.data.response.data;
+                setCache('search_diagnosis_inagrouper:' + code, rawData);
+            }
+
 
             if (rawData !== "EMPTY" && rawData.length > 0) {
                 const item = rawData[0];
@@ -279,20 +286,28 @@ async function procedure_set(data) {
 
     for (let i = 0; i < data.length; i++) {
         try {
-            let res = await fetch(API_URL + '/api/inacbg/ws', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify({
-                    "metadata": { "method": "search_procedures_inagrouper" },
-                    "data": { "keyword": data[i] }
-                })
-            });
+            // Ambil data dari cache
 
-            const response = await res.json();
-            const rawData = response.data.response.data;
+            let rawData = await getCache('search_procedures_inagrouper:' + data[i], 60 * 60 * 24 * 7);
+            if (!rawData) {
+                let res = await fetch(API_URL + '/api/inacbg/ws', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        "metadata": { "method": "search_procedures_inagrouper" },
+                        "data": { "keyword": data[i] }
+                    })
+                });
+
+                const response = await res.json();
+                rawData = response.data.response.data;
+                setCache('search_procedures_inagrouper:' + data[i], rawData)
+            }
+
+
 
             if (rawData !== "EMPTY" && rawData.length > 0) {
                 const item = rawData[0];
@@ -321,12 +336,8 @@ async function procedure_set(data) {
 // procedure_set(["90.599"])
 let inacbg_klaim = JSON.parse(sessionStorage.getItem('inacbg_klaim'));
 console.log(inacbg_klaim);
-// let diagnosaIDRG = [];
 let procedureIDRG_temp = [];
-// inacbg_klaim.diagnosa_pasien.forEach((item) => {
-//     diagnosaIDRG.push(item.kd_penyakit);
 
-// })
 for (let i of inacbg_klaim.diagnosa_pasien) {
     diagnosaIDRG.push(i.kd_penyakit);
 }

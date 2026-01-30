@@ -16,22 +16,11 @@
     <main>
         <%- body %>
     </main>
-    <script>
-    function getCookieValue(name) {
-    let value = document.cookie.split(';').filter(item => item.trim().startsWith(name + '='))[0];
-    if (value) {
-        value = decodeURIComponent(value.split('=')[1]);
-    } else {
-        value = null;
-    }
-    return value;
-}
-    </script>
     <%- include('../partials/footer') %>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <% if (typeof script != 'undefined') { %>
         <% script.forEach(function(item) { %>
-            <script src="<%= item %>"></script>
+            <script type="module" src="<%= item %>"></script>
         <% }); %>
     <% } %>
 </body>

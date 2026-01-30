@@ -1,3 +1,4 @@
+import { getCookieValue } from "./cookie.js";
 let btnCari = document.getElementById('cari')
 btnCari.addEventListener("click", functionCari);
 let API_URL = getCookieValue('API_URL');
