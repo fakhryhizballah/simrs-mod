@@ -1,5 +1,5 @@
-let API_URL = getCookieValue('API_URL');
-let token = getCookieValue('token');
+// let API_URL = getCookieValue('API_URL');
+// let token = getCookieValue('token');
 let diagnosaIDRG = [];
 // --- LOGIC DIAGNOSA ---
 $('#idrg_diagnosa_set').select2({
@@ -149,7 +149,7 @@ async function diagnosa_set(params) {
 
 // Inisialisasi data
 let dadig2 = ['A01.0', 'B05.9'];
-diagnosa_set(dadig2);
+// diagnosa_set(dadig2);
 
 
 // --- LOGIC PROSEDUR ---
@@ -318,10 +318,25 @@ async function procedure_set(data) {
     }
     selectEl.trigger('change');
 }
-procedure_set(["90.599"])
+// procedure_set(["90.599"])
+let inacbg_klaim = JSON.parse(sessionStorage.getItem('inacbg_klaim'));
+console.log(inacbg_klaim);
+// let diagnosaIDRG = [];
+let procedureIDRG_temp = [];
+// inacbg_klaim.diagnosa_pasien.forEach((item) => {
+//     diagnosaIDRG.push(item.kd_penyakit);
 
+// })
+for (let i of inacbg_klaim.diagnosa_pasien) {
+    diagnosaIDRG.push(i.kd_penyakit);
+}
+diagnosa_set(diagnosaIDRG);
+for (let i of inacbg_klaim.prosedur_pasien) {
+    procedureIDRG_temp.push(i.kode);
+}
+procedure_set(procedureIDRG_temp);
 
-$('#form_diagnosa').submit(function(e) {
+$('#form_diagnosa').submit(async function (e) {
     e.preventDefault();
     let procedureIDRG = [];
     $('#procedure-list-body tr').each(function() {
@@ -331,5 +346,57 @@ $('#form_diagnosa').submit(function(e) {
     });
     console.log(diagnosaIDRG);
     console.log(procedureIDRG);
+    let no_sep = $('#nomor_sep').val();
+    console.log(no_sep);
+    let listDiagnosaIDRG = "";
+    for (let i of diagnosaIDRG) {
+        listDiagnosaIDRG += i + "#";
+    }
+    let kirim_diagnosaIDRG = await claim(
+        {
+            "metadata": {
+                "method": "idrg_diagnosa_set",
+                "nomor_sep": no_sep
+            },
+            "data": {
+                "diagnosa": listDiagnosaIDRG
+            }
+        }
+    )
+
+    let listProcedureIDRG = "";
+    for (let i of procedureIDRG) {
+        if (i.qty > 1) {
+            listProcedureIDRG += i.code + "+" + i.qty + "#";
+        } else {
+            listProcedureIDRG += i.code + "#";
+        }
+    }
+    let kirim_procedureIDRG = await claim(
+        {
+            "metadata": {
+                "method": "idrg_procedure_set",
+                "nomor_sep": no_sep
+            },
+            "data": {
+                "procedure": listProcedureIDRG
+            }
+        }
+    )
+
+    let gruper_IDRG = await claim(
+        {
+            "metadata": {
+                "method": "grouper",
+                "stage": "1",
+                "grouper": "idrg"
+            },
+            "data": {
+                "nomor_sep": no_sep
+            }
+        }
+    )
+    console.log(gruper_IDRG);
+
 
 });

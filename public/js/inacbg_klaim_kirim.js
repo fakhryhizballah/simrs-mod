@@ -195,6 +195,25 @@ document.getElementById('form_kirim_klaim').addEventListener('submit', async fun
     console.log(set_claim_data)
     let set_claim_data_send = await claim(set_claim_data)
     console.log(set_claim_data_send)
+    if (set_claim_data_send.data.metadata.code == '200') {
+        Swal.fire({
+            title: 'Data berhasil dikirim',
+            text: 'Data berhasil dikirim, silahkan tunggu beberapa saat',
+            icon: 'success',
+            timer: 2000
+        })
+        let tombol_Gruping_idrg = document.getElementById('submit-button-IDRG')
+        tombol_Gruping_idrg.removeAttribute('disabled')
+        tombol_Gruping_idrg.removeAttribute('class', 'cursor-not-allowed opacity-50')
+        tombol_Gruping_idrg.classList.add('bg-blue-300', 'text-white-600', 'font-bold', 'py-2.5', 'px-8', 'rounded-lg', 'shadow-lg', 'transition', 'duration-200', 'cursor-pointer')
+        let idrg_diagnosa_set = document.getElementById('idrg_diagnosa_set')
+        idrg_diagnosa_set.removeAttribute('disabled')
+        let idrg_procedure_set = document.getElementById('idrg_procedure_set')
+        idrg_procedure_set.removeAttribute('disabled')
+        // window.location.href = '/dashboard/inacbg_klaim';
+    } else {
+        alert('Gagal mengirim data, silahkan coba lagi');
+    }
     // let response = await fetch(
     //     API_URL + "/api/inacbg/klaim",
     //     {

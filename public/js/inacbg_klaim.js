@@ -58,10 +58,8 @@ async function functionCari() {
         let diagnosa = ''
         let prosedur = ''
         for (let y of x.diagnosa_pasien) {
-            console.log(y.kd_penyakit)
             diagnosa += y.kd_penyakit + '#'
         }
-        console.log(diagnosa)
         for (let y of x.prosedur_pasien) {
             prosedur += y.kode + '#'
         }
@@ -132,7 +130,6 @@ async function functionCari() {
         let div10 = document.createElement('div');
        
         for (let y of x.diagnosa_pasien) {
-            console.log(y.kd_penyakit)
             div10.classList.add('flex', 'flex-wrap', 'gap-1', 'mb-1');
             let span2 = document.createElement('span');
             span2.classList.add('bg-red-50', 'text-red-600', 'text-[10px]', 'px-1.5', 'py-0.5', 'border', 'border-red-200', 'rounded');
@@ -141,7 +138,6 @@ async function functionCari() {
         }
         let div11 = document.createElement('div');
         for (let y of x.prosedur_pasien) {
-            console.log(y.kode)
             div10.classList.add('flex', 'flex-wrap', 'gap-1', 'mb-1');
             let span2 = document.createElement('span');
             span2.classList.add('bg-blue-50', 'text-blue-600', 'text-[10px]', 'px-1.5', 'py-0.5', 'border', 'border-blue-200', 'rounded');

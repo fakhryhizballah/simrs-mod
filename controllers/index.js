@@ -93,8 +93,8 @@ module.exports = {
     inacbg_klaim_kirim: (req, res) => {
         let data = {
             title: "Dashboard | SIMRS",
-            hrefhead: [],
-            script: ["/asset/js/inacbg_klaim_kirim.js"]
+            hrefhead: ["https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css", "/asset/css/diagnosa.css"],
+            script: ["/asset/js/inacbg_klaim_kirim.js", "https://code.jquery.com/jquery-3.6.0.min.js", "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js", "/asset/js/diagnosa.js"]
         };
 
         res.render("./dashboard/inacbg_klaim_kirim", data, (err, dashboardHtml) => {
