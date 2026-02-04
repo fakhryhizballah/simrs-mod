@@ -408,6 +408,4 @@ $('#form_diagnosa').submit(async function (e) {
         }
     )
     console.log(gruper_IDRG);
-
-
 });
