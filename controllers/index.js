@@ -111,7 +111,7 @@ module.exports = {
         let data = {
             title: "Dashboard | SIMRS",
             hrefhead: ["https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css", "/asset/css/idrg.css"],
-            script: ["https://code.jquery.com/jquery-3.6.0.min.js", "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js", "/asset/js/idrg_klaim.js"]
+            script: ["https://code.jquery.com/jquery-3.6.0.min.js", "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"]
         };
 
         res.render("./dashboard/idrg_klaim", data, (err, dashboardHtml) => {

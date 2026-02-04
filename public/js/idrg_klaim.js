@@ -19,6 +19,13 @@
 function formatCurrency(val) {
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+function formatdate(date) {
+    const dateArray = date.split('/');
+    const year = dateArray[2];
+    const month = dateArray[1];
+    const day = dateArray[0];
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+}
 // renderIDRG(responseData);
 function renderIDRG(responseData) {
     const data = responseData.response_idrg;
@@ -33,7 +40,9 @@ function renderIDRG(responseData) {
     container.appendChild(buttonEdit);
     }
 
-    const html = `
+    const html = `<div class="max-w-7xl mx-auto px-4 py-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                </div>
                 <table class="idrg-container w-full border border-[#b5ccb5]">
                     <thead>
                         <tr>
@@ -79,8 +88,10 @@ function renderIDRG(responseData) {
                 <div class="mt-4 clearfix">
                     <button class="btn-edit" onclick="alert('Fungsi Edit Ulang iDRG')">Edit Ulang iDRG</button>
                 </div>
+            </div>
             `;
 
     container.innerHTML = html;
 }
 
+export { renderIDRG, formatdate };

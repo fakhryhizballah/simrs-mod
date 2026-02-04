@@ -40,7 +40,7 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-semibold text-gray-600">Tgl Lahir</label>
-                            <input type="date" name="tgl_lahir" id="tgl_lahir" value="2000-01-01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                            <input type="date" name="tgl_lahir" id="tgl_lahir" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-600">Gender</label>
@@ -54,11 +54,11 @@
                     <div class="grid grid-cols-2 gap-4 border-t pt-4 mt-4">
                         <div>
                             <label class="block text-sm font-semibold text-gray-600">Tgl Masuk</label>
-                            <input type="datetime-local" name="tgl_masuk" id="tgl_masuk" value="2025-08-22T08:55" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                            <input type="date" name="tgl_masuk" id="tgl_masuk" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-600">Tgl Pulang</label>
-                            <input type="datetime-local" name="tgl_pulang" id="tgl_pulang" value="2025-08-22T09:55" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                            <input type="date" name="tgl_pulang" id="tgl_pulang" value="" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
                         </div>
                     </div>
 
@@ -207,6 +207,10 @@
                         <input type="number" id="radiologi" name="tarif_rs_radiologi" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
                     <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Rehabilitasi</label>
+                        <input type="number" id="rehabilitasi" name="tarif_rs_rehabilitasi" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
+                    </div>
+                    <div>
                         <label class="text-xs font-bold text-gray-500 uppercase">Laboratorium</label>
                         <input type="number" id="laboratorium" name="tarif_rs_laboratorium" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 p-2 text-sm">
                     </div>
@@ -263,7 +267,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-600">Kantong Darah</label>
-                    <input type="number" name="kantong_darah" value="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
+                    <input type="number" name="kantong_darah" value="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 border">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-600">Payor Code</label>
@@ -343,8 +347,4 @@
         </form>
     </div>
 </div>
-<div class="max-w-7xl mx-auto px-4 py-8">
-    <div class="bg-white rounded-lg shadow-md p-6">
-           <div id="idrg-container"></div>
-    </div>
-</div>
+<div id="idrg-container"></div>

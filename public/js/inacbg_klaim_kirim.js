@@ -1,13 +1,14 @@
 let coder = JSON.parse(sessionStorage.getItem('coder'));
 import { getCookieValue } from "./cookie.js";
+import { renderIDRG, formatdate } from './idrg_klaim.js';
 let token = getCookieValue('token');
 let API_URL = getCookieValue('API_URL');
 console.log(token)
 console.log(coder)
 document.getElementById('coder_nik').value = coder.nik
+let inacbg_klaim = JSON.parse(sessionStorage.getItem('inacbg_klaim'));
+console.log(inacbg_klaim)
 async function intal() {
-    let inacbg_klaim = JSON.parse(sessionStorage.getItem('inacbg_klaim'));
-    console.log(inacbg_klaim)
     let nomor_sep = document.getElementById('nomor_sep').value = inacbg_klaim.bridging_sep.no_sep
     let nomor_rm = document.getElementById('nomor_rm').value = inacbg_klaim.no_rkm_medis
     let nomor_kartu = document.getElementById('nomor_kartu').value = inacbg_klaim.pasien.no_peserta
@@ -26,6 +27,7 @@ async function intal() {
     let keperawatan = document.getElementById('keperawatan')
     let penunjang = document.getElementById('penunjang')
     let radiologi = document.getElementById('radiologi')
+    let rehabilitasi = document.getElementById('rehabilitasi')
     let laboratorium = document.getElementById('laboratorium')
     let kamar = document.getElementById('kamar')
     let obat = document.getElementById('obat')
@@ -98,6 +100,7 @@ async function intal() {
             keperawatan.value = dataRanap.data.biaya.keperawatan
             penunjang.value = 0
             radiologi.value = dataRanap.data.biaya.radiologi
+            rehabilitasi.value = dataRanap.data.biaya.rehabilitasi
             laboratorium.value = dataRanap.data.biaya.laboratorium
             kamar.value = dataRanap.data.biaya.kamar
             obat.value = dataRanap.data.biaya.obat
@@ -117,7 +120,7 @@ async function intal() {
     
     
 }
-intal()
+
 document.getElementById('form_kirim_klaim').addEventListener('submit', async function (event) {
     event.preventDefault();
     let formData = new FormData(event.target);
@@ -170,7 +173,7 @@ document.getElementById('form_kirim_klaim').addEventListener('submit', async fun
                 "radiologi": dataFrom.tarif_rs_radiologi,
                 "laboratorium": dataFrom.tarif_rs_laboratorium,
                 "pelayanan_darah": dataFrom.tarif_rs_pelayanan_darah,
-                "rehabilitasi": dataFrom.rehabilitasi,
+                "rehabilitasi": dataFrom.tarif_rs_rehabilitasi,
                 "kamar": dataFrom.tarif_rs_kamar,
                 "rawat_intensif": dataFrom.tarif_rs_rawat_intensif,
                 "obat": dataFrom.tarif_rs_obat,
@@ -234,7 +237,70 @@ document.getElementById('form_kirim_klaim').addEventListener('submit', async fun
     //     alert('Gagal mengirim data, silahkan coba lagi');
     // }
 });
+document.getElementById('nomor_sep').addEventListener('change', async function e() {
+    let no_sep = document.getElementById('nomor_sep').value;
+    console.log(no_sep)
+    cekclaim(no_sep);
 
+});
+idrg_diagnosa_set.setAttribute('disabled', true);
+async function cekclaim(no_sep) {
+    let cekclaim = await claim(
+        {
+            "metadata": {
+                "method": "get_claim_data"
+            },
+            "data": {
+                "nomor_sep": no_sep
+            }
+        }
+    )
+    console.log(cekclaim)
+    if (cekclaim.data.metadata.code == '400') {
+        intal()
+    }
+    if (cekclaim.data.metadata.code == '200') {
+        // renderIDRG(cekclaim)
+        let data = cekclaim.data.response.data
+        document.getElementById('nomor_sep').value = data.nomor_sep
+        document.getElementById('nomor_rm').value = data.nomor_rm
+        document.getElementById('nomor_kartu').value = data.nomor_kartu
+        document.getElementById('nama_pasien').value = data.nama_pasien
+        document.getElementById('tgl_lahir').value = formatdate(data.tgl_lahir)
+        document.getElementById('gender').value = data.gender
+        document.getElementById('jenis_rawat').value = data.jenis_rawat
+        document.getElementById('kelas_rawat').value = data.kelas_rawat
+        document.getElementById('tgl_masuk').value = formatdate(data.tgl_masuk)
+        document.getElementById('tgl_pulang').value = formatdate(data.tgl_pulang)
+        document.getElementById('nama_dokter').value = data.nama_dokter
+        document.getElementById('prosedur_non_bedah').value = data.tarif_rs.prosedur_non_bedah
+        document.getElementById('prosedur_bedah').value = data.tarif_rs.prosedur_bedah
+        document.getElementById('konsultasi').value = data.tarif_rs.konsultasi
+        document.getElementById('tenaga_ahli').value = data.tarif_rs.tenaga_ahli
+        document.getElementById('keperawatan').value = data.tarif_rs.keperawatan
+        document.getElementById('penunjang').value = data.tarif_rs.penunjang
+        document.getElementById('radiologi').value = data.tarif_rs.radiologi
+        document.getElementById('rehabilitasi').value = data.tarif_rs.rehabilitasi
+        document.getElementById('laboratorium').value = data.tarif_rs.laboratorium
+        document.getElementById('pelayanan_darah').value = data.tarif_rs.pelayanan_darah
+        document.getElementById('rawat_intensif').value = data.tarif_rs.rawat_intensif
+        document.getElementById('obat_kronis').value = data.tarif_rs.obat_kronis
+        document.getElementById('obat_kemoterapi').value = data.tarif_rs.obat_kemoterapi
+        document.getElementById('sewa_alat').value = data.tarif_rs.sewa_alat
+        document.getElementById('kamar').value = data.tarif_rs.kamar
+        document.getElementById('obat').value = data.tarif_rs.obat
+        document.getElementById('alkes').value = data.tarif_rs.alkes
+        document.getElementById('bmhp').value = data.tarif_rs.bmhp
+        document.getElementById('sistole').value = data.sistole
+        document.getElementById('diastole').value = data.diastole
+        document.getElementById('kantong_darah').value = data.kantong_darah
+        if (data.grouping_count > 0) {
+            idrg_diagnosa_set.removeAttribute('disabled');
+        }
+    }
+
+}
+cekclaim(inacbg_klaim.bridging_sep.no_sep);
 
 async function claim(databody) {
     let response = await fetch(
