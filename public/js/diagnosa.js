@@ -1,4 +1,4 @@
-import { getCookieValue } from "./cookie.js";
+import { getCookieValue, claim } from "./cookie.js";
 import { setCache, getCache } from "./indexdb.js";
 let API_URL = getCookieValue('API_URL');
 let token = getCookieValue('token');
@@ -409,3 +409,4 @@ $('#form_diagnosa').submit(async function (e) {
     )
     console.log(gruper_IDRG);
 });
+export { procedure_set, diagnosa_set };

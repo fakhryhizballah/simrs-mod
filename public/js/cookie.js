@@ -7,4 +7,21 @@ function getCookieValue(name) {
     }
     return value;
 }
-export { getCookieValue };
+async function claim(databody) {
+    let token = getCookieValue('token');
+    let API_URL = getCookieValue('API_URL');
+    let response = await fetch(
+        API_URL + "/api/inacbg/ws",
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(databody)
+        }
+    )
+    response = await response.json();
+    return response
+}
+export { getCookieValue, claim };

@@ -1,6 +1,7 @@
 let coder = JSON.parse(sessionStorage.getItem('coder'));
-import { getCookieValue } from "./cookie.js";
+import { getCookieValue, claim } from "./cookie.js";
 import { renderIDRG, formatdate } from './idrg_klaim.js';
+
 let token = getCookieValue('token');
 let API_URL = getCookieValue('API_URL');
 console.log(token)
@@ -294,26 +295,23 @@ async function cekclaim(no_sep) {
         document.getElementById('sistole').value = data.sistole
         document.getElementById('diastole').value = data.diastole
         document.getElementById('kantong_darah').value = data.kantong_darah
+        if (data.diagnosa_inagrouper != null) {
+            let dataDiagnosa = [];
+            dataDiagnosa = data.diagnosa_inagrouper.split('#');
+            diagnosa_set(dataDiagnosa)
+            console.log(dataDiagnosa)
+        }
         if (data.grouping_count > 0) {
-            idrg_diagnosa_set.removeAttribute('disabled');
+            let tombol_Gruping_idrg = document.getElementById('submit-button-IDRG')
+            tombol_Gruping_idrg.removeAttribute('disabled')
+            tombol_Gruping_idrg.removeAttribute('class', 'cursor-not-allowed opacity-50')
+            tombol_Gruping_idrg.classList.add('bg-blue-300', 'text-white-600', 'font-bold', 'py-2.5', 'px-8', 'rounded-lg', 'shadow-lg', 'transition', 'duration-200', 'cursor-pointer')
+            if (data.grouper.response_idrg != null) {
+                renderIDRG(data.grouper.response_idrg, data.nomor_sep);
+            }
         }
     }
 
 }
 cekclaim(inacbg_klaim.bridging_sep.no_sep);
 
-async function claim(databody) {
-    let response = await fetch(
-        API_URL + "/api/inacbg/ws",
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify(databody)
-        }
-    )
-    response = await response.json();
-    return response
-}
