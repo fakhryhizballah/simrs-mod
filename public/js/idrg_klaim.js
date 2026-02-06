@@ -1,21 +1,5 @@
-// // Data response_idrg dari input Anda
-// const responseData = {
-//     "response_idrg": {
-//         "mdc_number": "18",
-//         "mdc_description": "Diseases and Disorders of the Musculoskeletal System and Connective Tissue",
-//         "drg_code": "1820110",
-//         "drg_description": "Humerus, Tibia, Fibula, Ankle Proc. (Age Above 18) w/ No CC",
-//         "script_version": "1.0.30",
-//         "logic_version": "0.2.1778.202512041107",
-//         "cost_weight": "1.61",
-//         "sub_acute_weight": "0.00",
-//         "chronic_weight": "0.00",
-//         "total_cost_weight": "1.61",
-//         "nbr": "8,037,060",
-//         "status_cd": "final"
-//     }
-// };
-import { getCookieValue, claim } from "./cookie.js";
+import { claim } from "./cookie.js";
+import { inputInacbg, inacbg_diagnosa_set } from "./inacbg.js";
 function formatCurrency(val) {
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -84,6 +68,7 @@ function renderIDRG(responseData, no_sep) {
     // Tambahkan event listener untuk tombol
     const buttonEdit = document.getElementById('btn-IDRG');
     if (data.status_cd == "final") {
+        inputInacbg();
         buttonEdit.onclick = function () {
             kirimIDRG(no_sep, 'idrg_grouper_reedit');
         };
@@ -95,6 +80,16 @@ function renderIDRG(responseData, no_sep) {
     } else {
         buttonEdit.onclick = function () {
             kirimIDRG(no_sep, 'idrg_grouper_final');
+            // let importIDRG = {
+            //     "metadata": {
+            //         "method": "idrg_to_inacbg_import"
+            //     },
+            //     "data": {
+            //         "nomor_sep": no_sep
+            //     }
+            // }
+            // claim(importIDRG);
+            // inputInacbg();
         };
         buttonEdit.innerHTML = 'FINAL iDRG';
         let idrg_diagnosa_set = document.getElementById('idrg_diagnosa_set')

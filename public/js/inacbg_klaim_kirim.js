@@ -1,7 +1,7 @@
 let coder = JSON.parse(sessionStorage.getItem('coder'));
 import { getCookieValue, claim } from "./cookie.js";
 import { renderIDRG, formatdate } from './idrg_klaim.js';
-
+import { procedure_set, diagnosa_set } from './diagnosa.js';
 let token = getCookieValue('token');
 let API_URL = getCookieValue('API_URL');
 console.log(token)
@@ -42,8 +42,8 @@ async function intal() {
     }
 
     if (inacbg_klaim.status_lanjut == 'Ralan'){
-        tgl_masuk.value = new Date(inacbg_klaim.tgl_registrasi).toISOString().slice(0, 16).replace('T', ' ');
-        tgl_pulang.value = new Date(inacbg_klaim.tgl_registrasi).toISOString().slice(0, 16).replace('T', ' ');
+        tgl_masuk.value = (inacbg_klaim.tgl_registrasi);
+        tgl_pulang.value = (inacbg_klaim.tgl_registrasi);
         nama_dokter.value = inacbg_klaim.dokter.nm_dokter
         let dataRalan = await fetch(
             API_URL + "/api/inacbg/ralan/dpjp?no_rawat=" + inacbg_klaim.no_rawat,
@@ -92,8 +92,8 @@ async function intal() {
         dataRanap = await dataRanap.json();
         try {
             nama_dokter.value = dataRanap.data.nmDPJP
-            tgl_masuk.value = new Date(dataRanap.data.sttrawat.tgl_masuk).toISOString().slice(0, 16).replace('T', ' ');
-            tgl_pulang.value = new Date(dataRanap.data.sttrawat.tgl_keluar).toISOString().slice(0, 16).replace('T', ' ');
+            tgl_masuk.value = (dataRanap.data.sttrawat.tgl_masuk);
+            tgl_pulang.value = (dataRanap.data.sttrawat.tgl_keluar);
             prosedur_non_bedah.value = dataRanap.data.biaya.totalBiayaNonBedah
             prosedur_bedah.value = dataRanap.data.biaya.prosedur_bedah
             konsultasi.value = dataRanap.data.biaya.konsultasi
@@ -118,7 +118,19 @@ async function intal() {
         }
 
     }
-    
+
+    let diagnosaIDRG = [];
+
+    for (let i of inacbg_klaim.diagnosa_pasien) {
+        diagnosaIDRG.push(i.kd_penyakit);
+    }
+    diagnosa_set(diagnosaIDRG);
+    let procedureIDRG_temp = [];
+    for (let i of inacbg_klaim.prosedur_pasien) {
+        procedureIDRG_temp.push(i.kode);
+    }
+    procedure_set(procedureIDRG_temp);
+
     
 }
 
@@ -295,11 +307,24 @@ async function cekclaim(no_sep) {
         document.getElementById('sistole').value = data.sistole
         document.getElementById('diastole').value = data.diastole
         document.getElementById('kantong_darah').value = data.kantong_darah
-        if (data.diagnosa_inagrouper != null) {
-            let dataDiagnosa = [];
-            dataDiagnosa = data.diagnosa_inagrouper.split('#');
-            diagnosa_set(dataDiagnosa)
-            console.log(dataDiagnosa)
+        if (data.diagnosa_inagrouper != "") {
+            diagnosa_set(data.diagnosa_inagrouper.split('#'))
+        } else {
+            let diagnosaIDRG = [];
+            for (let i of inacbg_klaim.diagnosa_pasien) {
+                diagnosaIDRG.push(i.kd_penyakit);
+            }
+            diagnosa_set(diagnosaIDRG);
+        }
+        if (data.procedure_inagrouper != "") {
+            console.log(data.procedure_inagrouper.split('#'))
+            procedure_set(data.procedure_inagrouper.split('#'))
+        } else {
+            let procedureIDRG_temp = [];
+            for (let i of inacbg_klaim.prosedur_pasien) {
+                procedureIDRG_temp.push(i.kode);
+            }
+            procedure_set(procedureIDRG_temp);
         }
         if (data.grouping_count > 0) {
             let tombol_Gruping_idrg = document.getElementById('submit-button-IDRG')

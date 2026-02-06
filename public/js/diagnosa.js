@@ -64,14 +64,12 @@ $('#idrg_diagnosa_set').select2({
 }).on('change', function () {
     const selectedData = $(this).select2('data');
     const container = $('#diagnosa-list-container');
-    const tableBody = $('#diagnosa-tags');
-    console.log(selectedData)
+    const tableBody = $('#idrg_diagnosa_tags');
     diagnosaIDRG = [];
     tableBody.empty();
     if (selectedData.length > 0) {
         container.removeClass('hidden');
         selectedData.forEach((item, index) => {
-            console.log(index);
             if (index === 0) {
                 if (item.accpdx === "Y") {
                     tableBody.append(`
@@ -240,7 +238,14 @@ $('#idrg_procedure_set').select2({
         selectedData.forEach(item => {
             // Ambil kode asli (tanpa suffix _idx_...)
             const originalCode = item.id.split('_idx_')[0];
-            const val = existingQty[item.id] || 1;
+
+            // Cek apakah ada qty yang disimpan di data option
+            let val = 1;
+            if (existingQty[item.id]) {
+                val = existingQty[item.id];
+            } else if ($(this).find(`option[value="${item.id}"]`).data('procedure_qty')) {
+                val = $(this).find(`option[value="${item.id}"]`).data('procedure_qty');
+            }
 
             tableBody.append(`
                 <tr>
@@ -287,8 +292,8 @@ async function procedure_set(data) {
     for (let i = 0; i < data.length; i++) {
         try {
             // Ambil data dari cache
-
-            let rawData = await getCache('search_procedures_inagrouper:' + data[i], 60 * 60 * 24 * 7);
+            let dataSplit = data[i].split('+');
+            let rawData = await getCache('search_procedures_inagrouper:' + dataSplit[0], 60 * 60 * 24 * 7);
             if (!rawData) {
                 let res = await fetch(API_URL + '/api/inacbg/ws', {
                     method: 'POST',
@@ -298,13 +303,13 @@ async function procedure_set(data) {
                     },
                     body: JSON.stringify({
                         "metadata": { "method": "search_procedures_inagrouper" },
-                        "data": { "keyword": data[i] }
+                        "data": { "keyword": dataSplit[0] }
                     })
                 });
 
                 const response = await res.json();
                 rawData = response.data.response.data;
-                setCache('search_procedures_inagrouper:' + data[i], rawData)
+                setCache('search_procedures_inagrouper:' + dataSplit[0], rawData)
             }
 
 
@@ -326,6 +331,9 @@ async function procedure_set(data) {
                 });
 
                 selectEl.append(newOption);
+                if (dataSplit[1] > 0) {
+                    $(newOption).data('procedure_qty', dataSplit[1]);
+                }
             }
         } catch (err) {
             console.error("Gagal load prosedur:", err);
@@ -334,18 +342,7 @@ async function procedure_set(data) {
     selectEl.trigger('change');
 }
 // procedure_set(["90.599"])
-let inacbg_klaim = JSON.parse(sessionStorage.getItem('inacbg_klaim'));
-console.log(inacbg_klaim);
-let procedureIDRG_temp = [];
 
-for (let i of inacbg_klaim.diagnosa_pasien) {
-    diagnosaIDRG.push(i.kd_penyakit);
-}
-diagnosa_set(diagnosaIDRG);
-for (let i of inacbg_klaim.prosedur_pasien) {
-    procedureIDRG_temp.push(i.kode);
-}
-procedure_set(procedureIDRG_temp);
 
 $('#form_diagnosa').submit(async function (e) {
     e.preventDefault();
