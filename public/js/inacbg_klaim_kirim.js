@@ -4,11 +4,8 @@ import { renderIDRG, formatdate } from './idrg_klaim.js';
 import { procedure_set, diagnosa_set } from './diagnosa.js';
 let token = getCookieValue('token');
 let API_URL = getCookieValue('API_URL');
-console.log(token)
-console.log(coder)
 document.getElementById('coder_nik').value = coder.nik
 let inacbg_klaim = JSON.parse(sessionStorage.getItem('inacbg_klaim'));
-console.log(inacbg_klaim)
 async function intal() {
     let nomor_sep = document.getElementById('nomor_sep').value = inacbg_klaim.bridging_sep.no_sep
     let nomor_rm = document.getElementById('nomor_rm').value = inacbg_klaim.no_rkm_medis
@@ -268,12 +265,12 @@ async function cekclaim(no_sep) {
             }
         }
     )
-    console.log(cekclaim)
     if (cekclaim.data.metadata.code == '400') {
         intal()
     }
     if (cekclaim.data.metadata.code == '200') {
         // renderIDRG(cekclaim)
+        console.log(cekclaim)
         let data = cekclaim.data.response.data
         document.getElementById('nomor_sep').value = data.nomor_sep
         document.getElementById('nomor_rm').value = data.nomor_rm
@@ -317,7 +314,6 @@ async function cekclaim(no_sep) {
             diagnosa_set(diagnosaIDRG);
         }
         if (data.procedure_inagrouper != "") {
-            console.log(data.procedure_inagrouper.split('#'))
             procedure_set(data.procedure_inagrouper.split('#'))
         } else {
             let procedureIDRG_temp = [];
@@ -332,8 +328,11 @@ async function cekclaim(no_sep) {
             tombol_Gruping_idrg.removeAttribute('class', 'cursor-not-allowed opacity-50')
             tombol_Gruping_idrg.classList.add('bg-blue-300', 'text-white-600', 'font-bold', 'py-2.5', 'px-8', 'rounded-lg', 'shadow-lg', 'transition', 'duration-200', 'cursor-pointer')
             if (data.grouper.response_idrg != null) {
-                renderIDRG(data.grouper.response_idrg, data.nomor_sep);
-            }
+                let jenis_rawat = data.jenis_rawat == 1 ? "Rawat Inap" : "Rawat Jalan" + "(" + data.los + ")";
+                renderIDRG(data.grouper.response_idrg, data.nomor_sep, jenis_rawat);
+            } else (
+                console.log(data.grouper.response_idrg)
+            )
         }
     }
 

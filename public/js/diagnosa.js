@@ -1,5 +1,6 @@
 import { getCookieValue, claim } from "./cookie.js";
 import { setCache, getCache } from "./indexdb.js";
+import { renderIDRG, ungroupableIDRG } from './idrg_klaim.js';
 let API_URL = getCookieValue('API_URL');
 let token = getCookieValue('token');
 let diagnosaIDRG = [];
@@ -352,8 +353,6 @@ $('#form_diagnosa').submit(async function (e) {
         const qty = $(this).find('input[name="procedure_qty[]"]').val();
         procedureIDRG.push({code, qty});
     });
-    console.log(diagnosaIDRG);
-    console.log(procedureIDRG);
     let no_sep = $('#nomor_sep').val();
     console.log(no_sep);
     let listDiagnosaIDRG = "";
@@ -404,6 +403,11 @@ $('#form_diagnosa').submit(async function (e) {
             }
         }
     )
-    console.log(gruper_IDRG);
+    console.log(gruper_IDRG.data.response_idrg);
+    if (gruper_IDRG.data.response_idrg.mdc_number == "36") {
+        ungroupableIDRG(gruper_IDRG.data.response_idrg, no_sep, jenis_rawat);
+    } else {
+        renderIDRG(gruper_IDRG.data.response_idrg, no_sep, jenis_rawat);
+    }
 });
 export { procedure_set, diagnosa_set };

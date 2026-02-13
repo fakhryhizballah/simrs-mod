@@ -1,4 +1,4 @@
-import { claim } from "./cookie.js";
+import { claim, ConvertlogicVersion } from "./cookie.js";
 import { inputInacbg, inacbg_diagnosa_set } from "./inacbg.js";
 function formatCurrency(val) {
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -10,9 +10,10 @@ function formatdate(date) {
     const day = dateArray[0];
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
-// renderIDRG(responseData);
-function renderIDRG(responseData, no_sep) {
+function renderIDRG(responseData, no_sep, jenis_rawat) {
     const data = responseData;
+    let logic_version = ConvertlogicVersion(data.logic_version);
+    console.log(logic_version);
     const container = document.getElementById('idrg-container');
     const html = `<div class="max-w-7xl mx-auto px-4 py-8">
                 <div class="bg-white rounded-lg shadow-md p-6">
@@ -25,11 +26,11 @@ function renderIDRG(responseData, no_sep) {
                         <tbody>
                             <tr>
                                 <td class="label-cell">Info</td>
-                                <td class="value-cell" colspan="2">INACBG @ 3 Feb 2026 08:44 - ${data.script_version} / ${data.logic_version}</td>
+                                <td class="value-cell" colspan="2">@ ${logic_version} - ${data.script_version} / ${data.logic_version}</td>
                             </tr>
                             <tr>
                                 <td class="label-cell">Jenis Rawat</td>
-                                <td class="value-cell" colspan="2">Rawat Inap (6 Hari)</td>
+                                <td class="value-cell" colspan="2">${jenis_rawat}</td>
                             </tr>
                             <tr>
                                 <td class="label-cell">MDC</td>
@@ -64,6 +65,7 @@ function renderIDRG(responseData, no_sep) {
             </div>
             `;
     container.innerHTML = html;
+    console.log(container);
 
     // Tambahkan event listener untuk tombol
     const buttonEdit = document.getElementById('btn-IDRG');
@@ -114,4 +116,58 @@ async function kirimIDRG(no_sep, method) {
     return response
 }
 
-export { renderIDRG, formatdate, kirimIDRG };
+function ungroupableIDRG(responseData, no_sep, jenis_rawat) {
+    const data = responseData;
+    let logic_version = ConvertlogicVersion(data.logic_version);
+    console.log(logic_version);
+    const container = document.getElementById('idrg-container');
+    const html = `<div class="max-w-7xl mx-auto px-4 py-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <table class="idrg-container w-full border border-[#b5ccb5]">
+                        <thead>
+                            <tr>
+                                <th colspan="3" class="header-cell">Hasil Grouping iDRG - ${data.status_cd}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="label-cell">Info</td>
+                                <td class="value-cell" colspan="2">@ ${logic_version} - ${data.script_version} / ${data.logic_version}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Jenis Rawat</td>
+                                <td class="value-cell" colspan="2">${jenis_rawat}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">MDC</td>
+                                <td class="value-cell text-red-500">${data.mdc_description}</td>
+                                <td class="value-cell code-col">${data.mdc_number}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">DRG</td>
+                                <td class="value-cell text-red-500">${data.drg_description}</td>
+                                <td class="value-cell code-col">${data.drg_code}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Cost Weight **)</td>
+                                <td class="value-cell" colspan="2">${data.total_cost_weight}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">NBR **)</td>
+                                <td class="value-cell" colspan="2">${data.nbr}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Status</td>
+                                <td class="value-cell" colspan="2">${data.status_cd}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="footer-note">**) Catatan: Nilai belum final, sewaktu-waktu bisa berubah</p>
+                </div>
+                
+            </div>
+            `;
+    container.innerHTML = html;
+}
+
+export { renderIDRG, ungroupableIDRG, formatdate, kirimIDRG };
