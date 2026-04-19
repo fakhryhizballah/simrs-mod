@@ -3,6 +3,7 @@ import { setCache, getCache } from "./indexdb.js";
 let API_URL = getCookieValue('API_URL');
 let token = getCookieValue('token');
 document.addEventListener('DOMContentLoaded', function () {
+
     // Elemen DOM
     const loadingState = document.getElementById('loading-state');
     const errorState = document.getElementById('error-state');
@@ -12,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const subtitleInfo = document.getElementById('subtitle-info');
 
     // Elemen Filter
+    let dateonly = new Date().toISOString().split('T')[0];
+    document.getElementById('date-from').value = dateonly;
+    document.getElementById('date-until').value = dateonly;
     const dateFromEl = document.getElementById('date-from');
     const dateUntilEl = document.getElementById('date-until');
     const poliCodeEl = document.getElementById('poli-code');

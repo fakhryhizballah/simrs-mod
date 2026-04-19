@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded',async function () {
  document.getElementById('filter-nama').value = await getCache('namapx', 60 * 60 * 24 * 7);
  document.getElementById('filter-kd-poli').value = await getCache('kdPoli', 60 * 60 * 24 * 7);
     document.getElementById('nip').value = decoded.username;
+    document.getElementById('nama_pegawai').value = decoded.fullname;
     const inputFilterNoRawat = document.getElementById('filter-no-rawat');
     const inputFilterNoRm = document.getElementById('filter-no-rm')
     const selectFilterStatus = document.getElementById('filter-status');
@@ -80,13 +81,12 @@ document.addEventListener('DOMContentLoaded',async function () {
                 countRiwayat.textContent = `${result.record} x kunjungan`;
                 renderRiwayatList(currentRiwayatData);
             } else {
-                tampilkanDummyJikaGagal(); // Tampilkan dummy jika tidak ada data untuk preview
+                currentRiwayatData = [];
+                countRiwayat.textContent = '0 kunjungan';
             }
         } catch (error) {
             console.error('Error fetching data:', error);
             loadingRiwayat.classList.add('hidden');
-            // Tampilkan data dummy sebagai contoh fallback saat API bermasalah di local
-            tampilkanDummyJikaGagal();
         }
     }
 
@@ -136,30 +136,65 @@ document.addEventListener('DOMContentLoaded',async function () {
     window.editPemeriksaan = function (index) {
         const data = currentRiwayatData[index];
         if (!data) return;
+        if (data.nip !== decoded.username) {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda ingin meniru CPPT ' + data.pegawai.nama + '?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Tiru!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const fields = [
+                        'suhu_tubuh', 'tensi', 'nadi', 'respirasi', 'tinggi', 'berat', 'spo2', 'gcs', 'lingkar_perut',
+                        'kesadaran', 'keluhan', 'pemeriksaan', 'penilaian', 'rtl',
+                        'instruksi', 'evaluasi', 'alergi'
+                    ];
 
-        // Map keys JSON ke ID Input
-        const fields = [
-            'no_rawat', 'tgl_perawatan', 'jam_rawat', 'suhu_tubuh', 'tensi',
-            'nadi', 'respirasi', 'tinggi', 'berat', 'spo2', 'gcs', 'lingkar_perut',
-            'kesadaran', 'keluhan', 'pemeriksaan', 'penilaian', 'rtl',
-            'instruksi', 'evaluasi', 'alergi', 'nip'
-        ];
+                    fields.forEach(field => {
+                        const el = document.getElementById(field);
+                        if (el) {
+                            el.value = data[field] || '';
+                        }
+                    });
+                    return;
+                    // updatePemeriksaan(data);
+                };
+                if (result.isDismissed) {
+                    return;
+                    // updatePemeriksaan(data);
+                };
+            });
+        } else {
+            // Map keys JSON ke ID Input
+            const fields = [
+                'no_rawat', 'tgl_perawatan', 'jam_rawat', 'suhu_tubuh', 'tensi',
+                'nadi', 'respirasi', 'tinggi', 'berat', 'spo2', 'gcs', 'lingkar_perut',
+                'kesadaran', 'keluhan', 'pemeriksaan', 'penilaian', 'rtl',
+                'instruksi', 'evaluasi', 'alergi', 'nip'
+            ];
+            document.getElementById('status').value = 1;
 
-        fields.forEach(field => {
-            const el = document.getElementById(field);
-            if (el) {
-                el.value = data[field] || '';
-            }
-        });
+            fields.forEach(field => {
+                const el = document.getElementById(field);
+                if (el) {
+                    el.value = data[field] || '';
+                }
+            });
 
-        // Ubah tampilan UI Form
-        formTitle.textContent = 'Edit Data Pemeriksaan';
-        formTitle.classList.add('text-blue-700');
-        btnReset.classList.remove('hidden');
-        btnSimpan.textContent = 'Simpan Perubahan';
+            // Ubah tampilan UI Form
+            formTitle.textContent = 'Edit Data Pemeriksaan';
+            formTitle.classList.add('text-blue-700');
+            btnReset.classList.remove('hidden');
+            btnSimpan.textContent = 'Simpan Perubahan';
+            document.getElementById('status').value = 0;
 
-        // Scroll ke atas (ke arah form)
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Scroll ke atas (ke arah form)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
     };
 
     // --- Fungsi Reset Form ke Mode Input Baru ---
@@ -169,60 +204,106 @@ document.addEventListener('DOMContentLoaded',async function () {
         document.getElementById('filter-no-rawat').value = await getCache('noRawat', 60 * 60 * 24 * 7);
         document.getElementById('filter-no-rm').value = await getCache('noRm', 60 * 60 * 24 * 7);
         document.getElementById('nip').value = decoded.username;
+        document.getElementById('nama_pegawai').value = decoded.fullname;
         btnSimpan.textContent = 'Simpan Data';
         formTitle.textContent = 'Input Data Pemeriksaan (CPPT)';
+        document.getElementById('status').value = 1;
         formTitle.classList.remove('text-blue-700');
         btnReset.classList.add('hidden');
-    }
-
-    // --- Simulasi Data Dummy jika API gagal/kosong (Sesuai permintaan prompt) ---
-    function tampilkanDummyJikaGagal() {
-        countRiwayat.textContent = "2 Data (Dummy)";
-        currentRiwayatData = [
-            {
-                "no_rawat": "2026/01/03/000024",
-                "tgl_perawatan": "2026-01-03",
-                "jam_rawat": "08:09:35",
-                "suhu_tubuh": "36.4", "tensi": "110/70", "nadi": "82", "respirasi": "18",
-                "tinggi": "165", "berat": "60", "spo2": "98", "gcs": "15",
-                "kesadaran": "Compos Mentis",
-                "keluhan": "pasien kontrol post operasi",
-                "pemeriksaan": "luka tampak kering",
-                "alergi": "Tidak ada", "lingkar_perut": "",
-                "rtl": "managemen perawatan luka",
-                "penilaian": "gangguan integritas kulit",
-                "instruksi": "Obs ku, ttv\nkaji keadaan luka",
-                "evaluasi": "luka tampak kering",
-                "nip": "PRBB5",
-                "pegawai": { "nama": "LUSIANI MUSTIKA AYU, A.Md.Kep" }
-            },
-            {
-                "no_rawat": "2022/10/13/000157",
-                "tgl_perawatan": "2022-10-13",
-                "jam_rawat": "13:49:35",
-                "suhu_tubuh": "36.4", "tensi": "98/57", "nadi": "84", "respirasi": "22",
-                "tinggi": "132", "berat": "31", "spo2": "97", "gcs": "15",
-                "kesadaran": "Compos Mentis",
-                "keluhan": "Kedua telinga kurang dengar sejak 2 minggu\nSulit bernafas saat tidur\nTidur mendengkur",
-                "pemeriksaan": "Klien tampak sering menghela nafas",
-                "alergi": "tidak ada", "lingkar_perut": "",
-                "rtl": "- Mengkaji keefektifan pola pernafasan klien\n- Kolaborasi Dokter",
-                "penilaian": "Ketidakefektifan pola pernafasan",
-                "instruksi": "-", "evaluasi": "-",
-                "nip": "PRPTHT1",
-                "pegawai": { "nama": "dr. CONTOH DOKTER, Sp.THT" }
-            }
-        ];
-        renderRiwayatList(currentRiwayatData);
     }
 
     // --- Event Listeners ---
     btnCari.addEventListener('click', fetchRiwayat);
     btnReset.addEventListener('click', resetForm);
 
-    btnSimpan.addEventListener('click', function () {
+    btnSimpan.addEventListener('click', async function () {
+        const formData = new FormData(formPemeriksaan);
+        if (!formPemeriksaan.reportValidity()) {
+            formPemeriksaan.classList.add('was-validated');
+            return;
+        }
         // Logika untuk submit data (POST/PUT API) diletakkan disini.
-        alert('Fitur belum berfungsi.');
+        let status = document.getElementById('status').value;
+        let data = {
+            "no_rawat": document.getElementById('no_rawat').value,
+            "tgl_perawatan": document.getElementById('tgl_perawatan').value,
+            "jam_rawat": document.getElementById('jam_rawat').value,
+            "suhu_tubuh": document.getElementById('suhu_tubuh').value,
+            "tensi": document.getElementById('tensi').value,
+            "nadi": document.getElementById('nadi').value,
+            "respirasi": document.getElementById('respirasi').value,
+            "tinggi": document.getElementById('tinggi').value,
+            "berat": document.getElementById('berat').value,
+            "spo2": document.getElementById('spo2').value,
+            "gcs": document.getElementById('gcs').value,
+            "kesadaran": document.getElementById('kesadaran').value,
+            "keluhan": document.getElementById('keluhan').value,
+            "pemeriksaan": document.getElementById('pemeriksaan').value,
+            "alergi": document.getElementById('alergi').value,
+            "lingkar_perut": document.getElementById('lingkar_perut').value,
+            "rtl": document.getElementById('rtl').value,
+            "penilaian": document.getElementById('penilaian').value,
+            "instruksi": document.getElementById('instruksi').value,
+            "evaluasi": document.getElementById('evaluasi').value,
+            "nip": decoded.username
+        }
+        if (status == 1) {
+            let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            })
+            simpandata = await simpandata.json();
+            if (simpandata.status == 200) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Data Berhasil Disimpan'
+                })
+            }
+
+        } else if (status == 0) {
+            let updateData = await fetch(API_URL + '/api/ralan/pemeriksaan', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            })
+            updateData = await updateData.json();
+            if (updateData.status == 200) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Data Berhasil Diupdate'
+                })
+            }
+
+        }
         resetForm();
         fetchRiwayat();
     });

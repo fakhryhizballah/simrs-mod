@@ -22,7 +22,6 @@
                 <label class="block text-xs font-medium text-gray-700 mb-1">Status Lanjut</label>
                 <select id="filter-status" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border bg-white">
                     <option value="Ralan">Ralan</option>
-                    <option value="Ranap">Ranap</option>
                 </select>
             </div>
             <div>
@@ -56,11 +55,11 @@
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-1">Tanggal</label>
-                            <input type="date" id="tgl_perawatan" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border">
+                            <input type="date" id="tgl_perawatan" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" readonly>
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-1">Jam</label>
-                            <input type="time" id="jam_rawat" step="1" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border">
+                            <input type="time" id="jam_rawat" step="1" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" readonly>
                         </div>
                     </div>
 
@@ -70,39 +69,39 @@
                         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">Suhu (°C)</label>
-                                <input type="text" id="suhu_tubuh" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm">
+                                <input type="text" id="suhu_tubuh" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">Tensi (mmHg)</label>
-                                <input type="text" id="tensi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" placeholder="120/80">
+                                <input type="text" id="tensi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required placeholder="120/80">
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">Nadi (x/mnt)</label>
-                                <input type="text" id="nadi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm">
+                                <input type="text" id="nadi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">Respirasi (x/mnt)</label>
-                                <input type="text" id="respirasi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm">
+                                <input type="text" id="respirasi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">SpO2 (%)</label>
-                                <input type="text" id="spo2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm">
+                                <input type="text" id="spo2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">Tinggi (cm)</label>
-                                <input type="text" id="tinggi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm">
+                                <input type="text" id="tinggi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">Berat (Kg)</label>
-                                <input type="text" id="berat" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm">
+                                <input type="text" id="berat" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">GCS</label>
-                                <input type="text" id="gcs" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" placeholder="E,V,M">
+                                <input type="text" id="gcs" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required placeholder="E,V,M">
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">L. Perut (cm)</label>
-                                <input type="text" id="lingkar_perut" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm">
+                                <input type="text" id="lingkar_perut" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
                             </div>
                             <div>
                                 <label class="block text-xs text-gray-600 mb-1">Kesadaran</label>
@@ -123,27 +122,27 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-medium text-gray-700 mb-1">Subjektif / Keluhan</label>
-                                <textarea id="keluhan" rows="3" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm"></textarea>
+                                <textarea id="keluhan" rows="3" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-700 mb-1">Objektif / Pemeriksaan Fisik</label>
-                                <textarea id="pemeriksaan" rows="3" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm"></textarea>
+                                <textarea id="pemeriksaan" rows="3" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-700 mb-1">Asesmen / Penilaian</label>
-                                <textarea id="penilaian" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm"></textarea>
+                                <textarea id="penilaian" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-700 mb-1">Plan / RTL (Rencana Tindak Lanjut)</label>
-                                <textarea id="rtl" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm"></textarea>
+                                <textarea id="rtl" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-700 mb-1">Instruksi Medis</label>
-                                <textarea id="instruksi" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm"></textarea>
+                                <textarea id="instruksi" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-700 mb-1">Evaluasi</label>
-                                <textarea id="evaluasi" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm"></textarea>
+                                <textarea id="evaluasi" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -152,13 +151,20 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-1">Riwayat Alergi</label>
-                            <input type="text" id="alergi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" placeholder="Tidak ada alergi...">
+                            <input type="text" id="alergi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" placeholder="Tidak ada alergi..." required>
                         </div>
-                        <div>
-                            <label class="block text-xs font-medium text-gray-700 mb-1">NIP Petugas/Dokter</label>
-                            <input type="text" id="nip" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" placeholder="Kode / NIP Petugas" readonly>
+                        <div class="grid grid-cols-2 gap-1">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-700 mb-1">NIP Petugas/Dokter</label>
+                                <input type="text" id="nip" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" readonly>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-700 mb-1">Nama Petugas/Dokter</label>
+                                <input type="text" id="nama_pegawai" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" readonly>
+                            </div>
                         </div>
                     </div>
+                    <input type="hidden" id="status" value="1">
                 </form>
             </div>
             
