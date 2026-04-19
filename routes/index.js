@@ -5,12 +5,14 @@ const middleware = require('../middleware/index');
 const ajax = require('../controllers/ajax');
 
 router.get('/login', controller.login);
-router.get('/', controller.dashboard);
+router.get('/', controller.login);
 router.get('/menu', middleware.cekLogin, controller.menu);
 router.get('/menu/inacbg_klaim', middleware.cekLogin, controller.inacbg_klaim);
 router.get('/menu/inacbg_klaim/kirim', middleware.cekLogin, controller.inacbg_klaim_kirim);
 router.get('/menu/inacbg_klaim/kirim/diagnosa', middleware.cekLogin, controller.diagnosa);
 
+router.get('/menu/rajal', middleware.cekLogin, controller.rajal);
+router.get('/rajal/soap', middleware.cekLogin, controller.rajal_soap);
 
 router.post('/api/login', ajax.login);
 

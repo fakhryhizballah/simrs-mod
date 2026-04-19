@@ -403,11 +403,22 @@ $('#form_diagnosa').submit(async function (e) {
             }
         }
     )
+<<<<<<< HEAD
     console.log(gruper_IDRG.data.response_idrg);
     if (gruper_IDRG.data.response_idrg.mdc_number == "36") {
         ungroupableIDRG(gruper_IDRG.data.response_idrg, no_sep, jenis_rawat);
     } else {
         renderIDRG(gruper_IDRG.data.response_idrg, no_sep, jenis_rawat);
+=======
+    console.log(gruper_IDRG);
+    if (gruper_IDRG.data.metadata.code == "400") {
+        Swal.fire({
+            title: 'Nomor SEP: ' + no_sep + ' gagal di proses',
+            text: gruper_IDRG.data.metadata.message,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+>>>>>>> 9a3c3fc (menampilkan data soap)
     }
 });
 export { procedure_set, diagnosa_set };
