@@ -14,7 +14,7 @@ router.get('/menu/inacbg_klaim/kirim/diagnosa', middleware.cekLogin, controller.
 router.get('/menu/rajal', middleware.cekLogin, controller.rajal);
 router.get('/rajal/soap', middleware.cekLogin, controller.rajal_soap);
 
-router.post('/api/login', ajax.login);
+router.post('/login', ajax.login);
 
 router.get('/logout', (req, res) => {
     res.clearCookie('token', { httpOnly: true, sameSite: 'strict' });
