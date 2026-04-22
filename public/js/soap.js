@@ -88,6 +88,25 @@ document.addEventListener('DOMContentLoaded',async function () {
             console.error('Error fetching data:', error);
             loadingRiwayat.classList.add('hidden');
         }
+        try {
+            let apiUrlBerkas = `${API_URL}/api/ralan/pemeriksaan/berkas?no_rkm_medis=${noRm}`;
+
+            const response = await fetch(apiUrlBerkas, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            const result = await response.json();
+            if (result.data.length > 0) {
+                renderLampiran(result.data);
+            }
+            console.log(result)
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 
     // --- Fungsi Render HTML List Riwayat ---
@@ -312,3 +331,75 @@ document.addEventListener('DOMContentLoaded',async function () {
     setWaktuSekarang();
     fetchRiwayat();
 });
+
+// 2. Fungsi untuk me-render array menjadi elemen HTML
+function renderLampiran(files) {
+    const container = document.getElementById('container-lampiran');
+    container.innerHTML = ''; // Bersihkan container
+    console.log(files);
+    // Jika array kosong
+    if (!files || files.length === 0) {
+        container.innerHTML = '<div class="col-span-full py-4 text-center border-2 border-dashed border-gray-200 rounded-lg"><p class="text-sm text-gray-500 italic">Tidak ada dokumen penunjang yang dilampirkan.</p></div>';
+        return;
+    }
+
+    // Loop setiap objek di dalam array
+    files.forEach(file => {
+        console.log(file);
+        let htmlCard = '';
+        let nama_file = file.lokasi_file.split('/').pop();
+        let file_ext = file.lokasi_file.split('.').pop();
+        console.log(file_ext);
+
+        if (file_ext === 'jpg' || file_ext === 'jpeg' || file_ext === 'png') {
+            // Tampilan Card untuk Gambar
+            htmlCard = `
+                        <div class="group relative border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-all duration-200">
+                            <div class="h-24 w-full bg-gray-100 relative">
+                                <img src="${API_URL}${file.lokasi_file}" alt="${nama_file}" class="w-full h-full object-cover" />
+                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
+                                    <a href="${API_URL}${file.lokasi_file}" target="_blank" class="opacity-0 group-hover:opacity-100 bg-white text-gray-800 text-xs font-semibold py-1 px-3 rounded-full transition-opacity shadow-sm">
+                                        Lihat
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="p-2 border-t border-gray-100">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-blue-500 mr-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <p class="text-xs font-medium text-gray-700 truncate" title="${nama_file}">${nama_file}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+        } else if (file_ext === 'pdf') {
+            // Tampilan Card untuk PDF
+            htmlCard = `
+                        <div class="group relative border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-all duration-200 flex flex-col">
+                            <div class="h-24 w-full bg-red-50 flex items-center justify-center relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
+                                    <a href="${file.url}" target="_blank" class="opacity-0 group-hover:opacity-100 bg-white text-gray-800 text-xs font-semibold py-1 px-3 rounded-full transition-opacity shadow-sm">
+                                        Buka PDF
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="p-2 border-t border-gray-100">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500 mr-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    <p class="text-xs font-medium text-gray-700 truncate" title="${file.nama_file}">${file.nama_file}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+        }
+
+        // Masukkan card ke dalam container
+        container.innerHTML += htmlCard;
+    });
+}
