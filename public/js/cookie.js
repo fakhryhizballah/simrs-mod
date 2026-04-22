@@ -72,4 +72,44 @@ function ConvertlogicVersion(logicVersion) {
     }
 
 }
-export { getCookieValue, claim, ConvertlogicVersion };
+function losCalculator(tgl_masuk, tgl_pulang) {
+    const date1 = new Date(tgl_masuk);
+    const date2 = new Date(tgl_pulang);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays
+}
+function losCalculator2(tgl_masuk, tgl_pulang) {
+    // Helper to parse DD/MM/YYYY strings into Date objects
+    const parseDate = (dateStr) => {
+        const [day, month, year] = dateStr.split('/').map(Number);
+        // Month is 0-indexed in JS (January = 0)
+        return new Date(year, month - 1, day);
+    };
+
+    const date1 = parseDate(tgl_masuk);
+    const date2 = parseDate(tgl_pulang);
+
+    // Check for invalid dates
+    if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
+        return "Error: Invalid Date Format. Please use DD/MM/YYYY.";
+    }
+
+    // Logic: Length of Stay shouldn't be negative
+    if (date2 < date1) {
+        return "Error: Discharge date cannot be before admission date.";
+    }
+
+    const diffTime = date2.getTime() - date1.getTime();
+
+    // Convert milliseconds to days
+    // 1000ms * 60s * 60m * 24h
+    const msPerDay = 1000 * 60 * 60 * 24;
+
+    // Standard LOS logic: if discharge is the same day, it's often counted as 1 day 
+    // or 0 depending on the facility. Here we use Math.max(1, ...) if you want 
+    // to ensure at least 1 day, otherwise use Math.floor or Math.round.
+    const diffDays = Math.floor(diffTime / msPerDay);
+    return diffDays + 1;
+}
+export { getCookieValue, claim, ConvertlogicVersion, losCalculator, losCalculator2 };

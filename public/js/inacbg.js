@@ -50,7 +50,7 @@ async function inputInacbg(){
 
             <div class="pt-6 border-t flex justify-end">
             <div class="mt-4 clearfix">
-                <button class="btn-import" id="btn-IMPORT">IMPORT CODING</button>
+                <button class="btn-import" id="btn-IMPORT" name="btn-IMPORT">IMPORT CODING</button>
             </div>
                 <div class="mt-4 m-2 clearfix">
                         <button class="btn-edit" id="btn-INACBG">GROUPING INACBG</button>
@@ -316,5 +316,9 @@ async function inacbg_diagnosa_set(params) {
 }
 
 // inacbg_diagnosa_set(['A01.0', 'B05.9'])
+
+// document.getElementById('btn-import').addEventListener("click", function (s) {
+//     console.log('procedureINACBG');
+// });
 
 export { inputInacbg, inacbg_diagnosa_set };

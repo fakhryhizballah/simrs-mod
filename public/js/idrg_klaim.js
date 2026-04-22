@@ -10,10 +10,12 @@ function formatdate(date) {
     const day = dateArray[0];
     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
-function renderIDRG(responseData, no_sep, jenis_rawat) {
+function renderIDRG(responseData, no_sep) {
     const data = responseData;
+    let jenis_rawat = document.getElementById('jenis_rawat').value == "2" ? "Rawat Jalan" : "Rawat Inap";
+    let los = document.getElementById('los').value
     let logic_version = ConvertlogicVersion(data.logic_version);
-    console.log(logic_version);
+    console.log(data);
     const container = document.getElementById('idrg-container');
     const html = `<div class="max-w-7xl mx-auto px-4 py-8">
                 <div class="bg-white rounded-lg shadow-md p-6">
@@ -30,7 +32,7 @@ function renderIDRG(responseData, no_sep, jenis_rawat) {
                             </tr>
                             <tr>
                                 <td class="label-cell">Jenis Rawat</td>
-                                <td class="value-cell" colspan="2">${jenis_rawat}</td>
+                                <td class="value-cell" colspan="2">${jenis_rawat} (${los} hari)</td>
                             </tr>
                             <tr>
                                 <td class="label-cell">MDC</td>
@@ -116,11 +118,16 @@ async function kirimIDRG(no_sep, method) {
     return response
 }
 
-function ungroupableIDRG(responseData, no_sep, jenis_rawat) {
+function ungroupableIDRG(responseData, no_sep) {
     const data = responseData;
     let logic_version = ConvertlogicVersion(data.logic_version);
-    console.log(logic_version);
+    let jenis_rawat = document.getElementById('jenis_rawat').value == "2" ? "Rawat Jalan" : "Rawat Inap";
+    let los = document.getElementById('los').value
     const container = document.getElementById('idrg-container');
+    let idrg_diagnosa_set = document.getElementById('idrg_diagnosa_set')
+    idrg_diagnosa_set.removeAttribute('disabled')
+    let idrg_procedure_set = document.getElementById('idrg_procedure_set')
+    idrg_procedure_set.removeAttribute('disabled')
     const html = `<div class="max-w-7xl mx-auto px-4 py-8">
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <table class="idrg-container w-full border border-[#b5ccb5]">
@@ -136,7 +143,7 @@ function ungroupableIDRG(responseData, no_sep, jenis_rawat) {
                             </tr>
                             <tr>
                                 <td class="label-cell">Jenis Rawat</td>
-                                <td class="value-cell" colspan="2">${jenis_rawat}</td>
+                                <td class="value-cell" colspan="2">${jenis_rawat} - (${los} hari)</td>
                             </tr>
                             <tr>
                                 <td class="label-cell">MDC</td>
@@ -168,6 +175,7 @@ function ungroupableIDRG(responseData, no_sep, jenis_rawat) {
             </div>
             `;
     container.innerHTML = html;
+
 }
 
 export { renderIDRG, ungroupableIDRG, formatdate, kirimIDRG };

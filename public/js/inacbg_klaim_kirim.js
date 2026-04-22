@@ -1,6 +1,6 @@
 let coder = JSON.parse(sessionStorage.getItem('coder'));
-import { getCookieValue, claim } from "./cookie.js";
-import { renderIDRG, formatdate } from './idrg_klaim.js';
+import { getCookieValue, claim, losCalculator, losCalculator2 } from "./cookie.js";
+import { renderIDRG, ungroupableIDRG, formatdate } from './idrg_klaim.js';
 import { procedure_set, diagnosa_set } from './diagnosa.js';
 let token = getCookieValue('token');
 let API_URL = getCookieValue('API_URL');
@@ -17,6 +17,7 @@ async function intal() {
     let kelas_rawat = document.getElementById('kelas_rawat')
     let tgl_masuk = document.getElementById('tgl_masuk')
     let tgl_pulang = document.getElementById('tgl_pulang')
+    let los = document.getElementById('los')
     let nama_dokter = document.getElementById('nama_dokter')
     let prosedur_non_bedah = document.getElementById('prosedur_non_bedah')
     let prosedur_bedah = document.getElementById('prosedur_bedah')
@@ -41,6 +42,7 @@ async function intal() {
     if (inacbg_klaim.status_lanjut == 'Ralan'){
         tgl_masuk.value = (inacbg_klaim.tgl_registrasi);
         tgl_pulang.value = (inacbg_klaim.tgl_registrasi);
+        los.value = 1
         nama_dokter.value = inacbg_klaim.dokter.nm_dokter
         let dataRalan = await fetch(
             API_URL + "/api/inacbg/ralan/dpjp?no_rawat=" + inacbg_klaim.no_rawat,
@@ -88,9 +90,11 @@ async function intal() {
         )
         dataRanap = await dataRanap.json();
         try {
+            console.log(dataRanap)
             nama_dokter.value = dataRanap.data.nmDPJP
             tgl_masuk.value = (dataRanap.data.sttrawat.tgl_masuk);
             tgl_pulang.value = (dataRanap.data.sttrawat.tgl_keluar);
+            los.value = losCalculator(dataRanap.data.sttrawat.tgl_masuk, dataRanap.data.sttrawat.tgl_keluar)
             prosedur_non_bedah.value = dataRanap.data.biaya.totalBiayaNonBedah
             prosedur_bedah.value = dataRanap.data.biaya.prosedur_bedah
             konsultasi.value = dataRanap.data.biaya.konsultasi
@@ -282,6 +286,7 @@ async function cekclaim(no_sep) {
         document.getElementById('kelas_rawat').value = data.kelas_rawat
         document.getElementById('tgl_masuk').value = formatdate(data.tgl_masuk)
         document.getElementById('tgl_pulang').value = formatdate(data.tgl_pulang)
+        document.getElementById('los').value = losCalculator2(data.tgl_masuk, data.tgl_pulang)
         document.getElementById('nama_dokter').value = data.nama_dokter
         document.getElementById('prosedur_non_bedah').value = data.tarif_rs.prosedur_non_bedah
         document.getElementById('prosedur_bedah').value = data.tarif_rs.prosedur_bedah
@@ -322,18 +327,24 @@ async function cekclaim(no_sep) {
             }
             procedure_set(procedureIDRG_temp);
         }
-        if (data.grouping_count > 0) {
+        // if (data.grouping_count > 0) {
+
+        if (data.grouper.response_idrg != null) {
             let tombol_Gruping_idrg = document.getElementById('submit-button-IDRG')
             tombol_Gruping_idrg.removeAttribute('disabled')
             tombol_Gruping_idrg.removeAttribute('class', 'cursor-not-allowed opacity-50')
             tombol_Gruping_idrg.classList.add('bg-blue-300', 'text-white-600', 'font-bold', 'py-2.5', 'px-8', 'rounded-lg', 'shadow-lg', 'transition', 'duration-200', 'cursor-pointer')
-            if (data.grouper.response_idrg != null) {
-                let jenis_rawat = data.jenis_rawat == 1 ? "Rawat Inap" : "Rawat Jalan" + "(" + data.los + ")";
-                renderIDRG(data.grouper.response_idrg, data.nomor_sep, jenis_rawat);
+            // let jenis_rawat = data.jenis_rawat == 1 ? "Rawat Inap" : "Rawat Jalan" + "(" + data.los + ")";
+            // renderIDRG(data.grouper.response_idrg, data.nomor_sep, jenis_rawat);
+            if (data.grouper.response_idrg.mdc_number == "36") {
+                ungroupableIDRG(data.grouper.response_idrg, no_sep);
+            } else {
+                renderIDRG(data.grouper.response_idrg, no_sep);
+            }
             } else (
                 console.log(data.grouper.response_idrg)
             )
-        }
+        // }
     }
 
 }
