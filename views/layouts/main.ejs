@@ -10,10 +10,21 @@
             <link href="<%= item %>" rel="stylesheet" />
         <% }); %>
     <% } %>
+     <style>
+        .loader {
+            border-top-color: #3b82f6;
+            -webkit-animation: spinner 1.5s linear infinite;
+            animation: spinner 1.5s linear infinite;
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
     <%- include('../partials/header') %>
-    <main>
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
         <%- body %>
     </main>
     <%- include('../partials/footer') %>

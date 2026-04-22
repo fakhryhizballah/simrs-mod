@@ -90,6 +90,23 @@ module.exports = {
             res.render("./layouts/main", data);
         });
     },
+
+    inacbg_klaim: (req, res) => {
+        let data = {
+            title: "Dashboard | SIMRS",
+            script: ["/asset/js/inacbg_klaim.js"]
+        };
+
+        res.render("./dashboard/inacbg_klaim", data, (err, dashboardHtml) => {
+            if (err) {
+                console.error("Error rendering dashboard/inacbg_klaim.ejs:", err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            data.body = dashboardHtml;
+            res.render("./layouts/main", data);
+        });
+    },
     inacbg_klaim_kirim: (req, res) => {
         let data = {
             title: "Dashboard | SIMRS",
@@ -124,4 +141,36 @@ module.exports = {
             res.render("./layouts/main", data);
         });
     },
+    rajal: (req, res) => {
+        let data = {
+            title: "Dashboard | SIMRS",
+            script: ["/asset/js/rajal.js"]
+        };
+
+        res.render("./dashboard/rajal_list", data, (err, dashboardHtml) => {
+            if (err) {
+                console.error("Error rendering:", err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            data.body = dashboardHtml;
+            res.render("./layouts/main", data);
+        });
+    },
+    rajal_soap: (req, res) => {
+        let data = {
+            title: "Dashboard | SIMRS",
+            script: ["/asset/js/soap.js"]
+        };
+
+        res.render("./rajal/soap", data, (err, dashboardHtml) => {
+            if (err) {
+                console.error("Error rendering:", err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            data.body = dashboardHtml;
+            res.render("./layouts/main", data);
+        });
+    }
 }

@@ -20,7 +20,7 @@ module.exports = {
             }
             let user = await Users.findOne({ username: username, password: password });
             if (user) {
-                let token = jwt.sign({ username: username, nik: user.data.no_ktp }, process.env.SECRET_KHNZA, { expiresIn: '1d' });
+                let token = jwt.sign({ username: username, nik: user.data.no_ktp, fullname: user.data.nama }, process.env.SECRET_KHNZA, { expiresIn: '1d' });
                 res.cookie('token', token);
                 return res.status(200).json({
                     error: false,
@@ -74,7 +74,7 @@ module.exports = {
                 });
                 await user.save();
             }
-            let token = jwt.sign({ username: username,nik: cekUser.data.data[0].nik }, process.env.SECRET_KHNZA, { expiresIn: '1d' });
+            let token = jwt.sign({ username: username, nik: cekUser.data.data[0].nik, fullname: cekUser.data.data[0].nama }, process.env.SECRET_KHNZA, { expiresIn: '1d' });
             res.cookie('token', token);
             return res.status(200).json({
                 error: false,
@@ -95,4 +95,5 @@ module.exports = {
         }
       
     }
+
 }

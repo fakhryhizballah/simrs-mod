@@ -9,7 +9,6 @@ sessionStorage.setItem('coder', username);
 
 console.log(API_URL)
 async function functionCari() {
-    console.log("cari")
     let keyword = document.getElementById('keyword').value;
     let tanggalawal = document.getElementById('tanggalawal').value;
     let tanggalakhir = document.getElementById('tanggalakhir').value;
