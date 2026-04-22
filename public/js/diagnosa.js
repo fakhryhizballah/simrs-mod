@@ -403,11 +403,15 @@ $('#form_diagnosa').submit(async function (e) {
             }
         }
     )
-    console.log(gruper_IDRG.data.response_idrg);
+    console.log(gruper_IDRG.data);
+    if (gruper_IDRG.data.metadata.code == "400") {
+        alert(gruper_IDRG.data.metadata.message);
+        return
+    }
     if (gruper_IDRG.data.response_idrg.mdc_number == "36") {
-        ungroupableIDRG(gruper_IDRG.data.response_idrg, no_sep, jenis_rawat);
+        ungroupableIDRG(gruper_IDRG.data.response_idrg, no_sep);
     } else {
-        renderIDRG(gruper_IDRG.data.response_idrg, no_sep, jenis_rawat);
+        renderIDRG(gruper_IDRG.data.response_idrg, no_sep);
     }
 });
 export { procedure_set, diagnosa_set };
