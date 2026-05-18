@@ -263,10 +263,10 @@ Stat Counter: "[icon] 0 Pasien Terdaftar"
 
 ```javascript
 // Variables passed from backend:
-- title      : Page title
-- hrefhead   : [css1.css, css2.css]
-- script     : ["app1.js", "app2.js"]
-- body       : Rendered content (child view result)
+// title      : Page title
+// hrefhead   : [css1.css, css2.css]
+// script     : ["app1.js", "app2.js"]
+// body       : Rendered content (child view result)
 ```
 
 ### `views/layouts/base.ejs`
@@ -293,6 +293,158 @@ Stat Counter: "[icon] 0 Pasien Terdaftar"
 ### `views/partials/navbar.ejs`
 
 **Fungsi:** Sidebar navigation menu (dynamic content from backend context).
+
+## 📡 External API Endpoints
+
+The application communicates with a backend API server. The base URL is stored in a cookie named `API_URL` and is used by all JavaScript modules. Below is a summary of the key endpoints that are consumed by the views and public JavaScript files.
+
+| Endpoint | Method | Purpose | Notes |
+|----------|--------|---------|-------|
+| `/login` | POST | Authenticate user and return JWT token | Used by `views/auth/login.ejs` via AJAX |
+| `/api/inacbg/ws` | POST | Generic INACBG web service for searching diagnoses, procedures, and submitting claims | Used by `public/js/diagnosa.js`, `public/js/idrg_klaim.js`, `public/js/inacbg.js`, `public/js/inacbg_klaim.js`, `public/js/inacbg_klaim_kirim.js` |
+| `/api/ralan/pemeriksaan` | POST/PUT | Create or update SOAP/CPPT records | Used by `public/js/soap.js` |
+| `/api/ralan/pemeriksaan/riwayat` | GET | Retrieve patient visit history | Used by `public/js/soap.js` |
+| `/api/ralan/pemeriksaan/berkas` | GET | Retrieve supporting documents for a patient | Used by `public/js/soap.js` |
+| `/api/ralan/pemeriksaan` | GET | (Not directly used in current code but available for fetching records) |
+| `/api/ralan/pemeriksaan` | DELETE | (Not used) |
+| `/api/ralan/pemeriksaan` | PATCH | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+| `/api/ralan/pemeriksaan` | CONNECT | (Not used) |
+| `/api/ralan/pemeriksaan` | OPTIONS | (Not used) |
+| `/api/ralan/pemeriksaan` | HEAD | (Not used) |
+| `/api/ralan/pemeriksaan` | TRACE | (Not used) |
+```
+**Note:** The table above lists only the most frequently used endpoints. The backend may expose additional routes for administrative or reporting purposes.
 
 ---
 
