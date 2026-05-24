@@ -132,9 +132,15 @@ document.addEventListener('DOMContentLoaded', async function () {
                                 ${item.pegawai?.nama || item.nip}
                             </div>
                         </div>
-                        <button onclick="editPemeriksaan(${index})" class="text-xs bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm transition">
+                         <div class="bg-blue-50/50 px-3 py-2 border-b border-gray-100 flex justify-between">
+                          <button onclick="copyPemeriksaan(${index})" class="text-xs bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
+                            Copy
+                        </button>
+                        <button onclick="editPemeriksaan(${index})" class="text-xs bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
                             Edit
                         </button>
+                         </div>
+                       
                     </div>
                     <div class="p-3">
                         <div class="flex flex-wrap gap-1.5 mb-2">${badgesHTML}</div>
@@ -212,6 +218,24 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Scroll ke atas (ke arah form)
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+    };
+    window.copyPemeriksaan = function (index) {
+        const data = currentRiwayatData[index];
+        if (!data) return;
+        const fields = [
+            'suhu_tubuh', 'tensi', 'nadi', 'respirasi', 'tinggi', 'berat', 'spo2', 'gcs', 'lingkar_perut',
+            'kesadaran', 'keluhan', 'pemeriksaan', 'penilaian', 'rtl',
+            'instruksi', 'evaluasi', 'alergi'
+        ];
+
+        fields.forEach(field => {
+            const el = document.getElementById(field);
+            if (el) {
+                el.value = data[field] || '';
+            }
+        });
+        return;
 
     };
 

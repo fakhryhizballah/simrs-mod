@@ -1,9 +1,11 @@
-const CACHE_NAME = 'simrs-cache-v1';
+const CACHE_NAME = 'simrs-cache-v2';
 const urlsToCache = [
-  // '/',
-  // '/asset/js/',
-  // '/asset/css/',
-  // '/favicon.ico'
+  '/',
+  '/asset/js/',
+  '/asset/css/',
+  '/asset/img/',
+  '/manifest.json',
+  '/favicon.ico'
 ];
 
 self.addEventListener('install', event => {
