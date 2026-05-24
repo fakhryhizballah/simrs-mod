@@ -4,7 +4,7 @@
   "description": "Sistem Informasi Manajemen Rumah Sakit",
   "start_url": "/menu",
   "display": "fullscreen",
-  "orientation": "landscape",
+  "orientation": "landscape-primary",
   "background_color": "#ffffff",
   "theme_color": "#47f63b",
   "icons": [
@@ -13,6 +13,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "/asset/img/android/launchericon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/asset/img/ios/512.png",
