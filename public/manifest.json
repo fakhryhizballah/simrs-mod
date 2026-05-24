@@ -26,12 +26,12 @@
     },
     {
       "src": "/asset/img/windows/SmallTile.scale-200.png",
-      "sizes": "200x200",
+      "sizes": "142×142",
       "type": "image/png"
     },
     {
       "src": "/asset/img/windows/SmallTile.scale-400.png",
-      "sizes": "400x400",
+      "sizes": "284×284",
       "type": "image/png"
     }
   ]
