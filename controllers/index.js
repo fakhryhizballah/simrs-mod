@@ -63,7 +63,7 @@ module.exports = {
             title: "Menu Utama | SIMRS",
         };
         data.dataMenu = findMenu.map(x => x.menu).join('');
-
+        data.menus = findMenu.map(x => x.dataMenu);
         res.render("./menus/menu-grid", data, (err, menuGridHtml) => {
             if (err) {
                 console.error("Error rendering menu-grid.ejs:", err);

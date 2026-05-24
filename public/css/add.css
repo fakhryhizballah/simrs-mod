@@ -1,0 +1,29 @@
+/* Glassmorphism Custom Styles */
+@layer components {
+  .glassmorphism {
+    @apply backdrop-blur-md bg-white/20 border border-white/30 rounded-xl shadow-lg;
+  }
+
+  .glassmorphism-sm {
+    @apply backdrop-blur-sm bg-white/10 border border-white/20 rounded-lg;
+  }
+
+  .glassmorphism-lg {
+    @apply backdrop-blur-lg bg-white/30 border border-white/40 rounded-2xl shadow-2xl;
+  }
+
+  .glass-card {
+    @apply glassmorphism p-6 hover:shadow-xl hover:bg-white/30 transition-all;
+  }
+
+  .glass-button {
+    @apply backdrop-blur-md bg-white/20 hover:bg-white/30 border border-white/30 text-white px-4 py-2 rounded-lg transition-all hover:shadow-md;
+  }
+
+  .glass-input {
+    @apply backdrop-blur-md bg-white/10 border border-white/30 text-white placeholder-white/50 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/20 transition-all;
+  }
+
+  body {
+    background-attachment: fixed;
+  }

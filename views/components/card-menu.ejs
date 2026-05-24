@@ -1,0 +1,21 @@
+<%
+/*
+  Params:
+  - href     : string  — URL tujuan
+  - label    : string  — Judul kartu
+  - sub      : string  — Subjudul/deskripsi
+  - color    : string  — Nama warna Tailwind, contoh: 'pink', 'blue', 'green'
+  - icon     : string  — SVG path (d="...")
+*/
+const c = color || 'pink';
+%>
+<a href="<%= href %>"
+   class="w-full backdrop-blur-md bg-white/20 hover:bg-white/30 p-6 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border border-white/30 flex flex-col items-center group">
+  <div class="w-20 h-20 mb-4 bg-<%= c %>-50/40 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+    <svg class="w-12 h-12 text-<%= c %>-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="<%= icon %>"/>
+    </svg>
+  </div>
+  <span class="text-center font-semibold text-white drop-shadow-md"><%= label %></span>
+  <span class="text-xs text-white/80 mt-1"><%= sub %></span>
+</a>

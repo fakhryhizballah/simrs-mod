@@ -4,83 +4,59 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="/asset/css/main.css" rel="stylesheet">
+    
 
     </head>
-    <body class="bg-gray-100">
-        <div class="min-h-screen flex items-center justify-center px-4">
-            <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-                <h1 class="text-2xl font-bold text-center mb-6">Login</h1>
+    <body class="relative min-h-screen w-full bg-[url('/asset/img/background.jpeg')] bg-cover bg-center bg-no-repeat grid place-items-center overflow-x-hidden">
+        <!-- Overlay gradien -->
+        <div class="fixed inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/20 to-transparent pointer-events-none"></div>
+        
+        <div class="min-h-screen flex items-center justify-center px-4 relative z-10">
+            <!-- Card dengan Glassmorphism -->
+            <div class="backdrop-blur-2xl bg-white/10 border border-white/30 rounded-3xl shadow-2xl w-full max-w-md px-8 py-12 hover:bg-white/15 transition-all duration-300">
+                <h1 class="text-center text-4xl font-bold mb-8 text-white drop-shadow-lg">Login</h1>
                 <form>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium mb-2"
-                            for="username">username</label>
-                        <input type="text" id="username" name="username"
-                            required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2"
-                            for="password">Password</label>
-                        <input type="password" id="password" name="password"
-                            required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
+                        <label class="block text-sm font-semibold mb-3 text-white/90 drop-shadow"
+                            for="username">Username</label>
+                            <input type="text" id="username" name="username" autocomplete="username"
+                                required
+                                class="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/20 focus:border-white/50 transition-all backdrop-blur-sm">
+                                                </div>
+                                                <div class="mb-8">
+                                                    <label class="block text-sm font-semibold mb-3 text-white/90 drop-shadow"
+                                                        for="password">Password</label>
+                            <input type="password" id="password" name="password" autocomplete="current-password"
+                                required
+                                class="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/20 focus:border-white/50 transition-all backdrop-blur-sm">
+                                                </div>
                     <button type="submit"
-                        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">Login</button>
+                        class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-blue-500/50 border border-blue-400/50 backdrop-blur-sm">Login</button>
                 </form>
             </div>
         </div>
 
         <!-- PWA Install Popup -->
         <div id="install-popup"
-            class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 bg-white p-4 rounded-lg shadow-lg border hidden z-50">
-            <div class="flex items-center justify-between mb-2">
-                <h3 class="text-lg font-semibold">Install SIMRS App</h3>
+            class="fixed bottom-6 right-6 w-96 backdrop-blur-2xl bg-white/10 border border-white/30 p-6 rounded-2xl shadow-2xl z-50 transition-all duration-300 transform scale-95 opacity-0 pointer-events-none" style="visibility: hidden;">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-white drop-shadow">Install SIMRS App</h3>
                 <button id="close-popup"
-                    class="text-gray-500 hover:text-gray-700">&times;</button>
+                    class="text-white/70 hover:text-white text-2xl leading-none">&times;</button>
             </div>
-            <p class="text-sm text-gray-600 mb-4">Install aplikasi SIMRS untuk
-                pengalaman yang lebih baik dengan akses offline.</p>
-            <div class="flex space-x-2">
+            <p class="text-sm text-white/80 mb-6 drop-shadow">Instal aplikasi SIMRS untuk pengalaman yang lebih baik dengan akses offline.</p>
+            <div class="flex gap-3">
                 <button id="install-btn"
-                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Install</button>
+                    class="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all font-semibold shadow-lg border border-blue-400/50 backdrop-blur-sm">Install</button>
                 <button id="dismiss-btn"
-                    class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">Nanti</button>
+                    class="flex-1 bg-white/20 border border-white/30 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-all font-semibold backdrop-blur-sm">Nanti</button>
             </div>
         </div>
 
-        <script src="/asset/js/pwa.js"></script>
+        <script src="/asset/js/auth/pwa.js"></script>
+        <script src="/asset/js/auth/index.js"></script>
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-        document.querySelector('form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        console.log({ username, password });
-        try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await response.json();
-            if (data.error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal Login',
-                text: data.message
-            });
-            } else {
-                location.href = '/menu';
-            }
-        } catch (error) {
-            console.log(error);
-            alert('Terjadi kesalahan saat login');
-        }
-    });
-    </script>
     </body>
 </html>

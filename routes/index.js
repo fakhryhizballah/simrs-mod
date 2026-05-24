@@ -4,8 +4,8 @@ const controller = require('../controllers/index');
 const middleware = require('../middleware/index');
 const ajax = require('../controllers/ajax');
 
-router.get('/login', controller.login);
-router.get('/', controller.login);
+router.get('/login', middleware.isLogin, controller.login);
+router.get('/', middleware.isLogin, controller.login);
 router.get('/menu', middleware.cekLogin, controller.menu);
 router.get('/menu/inacbg_klaim', middleware.cekLogin, controller.inacbg_klaim);
 router.get('/menu/inacbg_klaim/kirim', middleware.cekLogin, controller.inacbg_klaim_kirim);

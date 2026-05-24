@@ -20,5 +20,18 @@ module.exports = {
         } catch (error) {
             return res.redirect('/logout');
         }
+    },
+    isLogin: async (req, res, next) => {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                next();
+            }
+            const decoded = jwt.verify(token, secretKey);
+            req.user = decoded;
+            return res.redirect('/menu');
+        } catch (error) {
+            next();
+        }
     }
 }
