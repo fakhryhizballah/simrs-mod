@@ -19,7 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const dateFromEl = document.getElementById('date-from');
     const dateUntilEl = document.getElementById('date-until');
     const poliCodeEl = document.getElementById('poli-code');
+    const dokterCodeEl = document.getElementById('dokter-code');
+    const cariCodeEl = document.getElementById('cari-code');
     const btnFilter = document.getElementById('btn-filter');
+
+    // Variabel untuk menyimpan data asli (sebelum filter pencarian)
+    let originalData = [];
 
     // Fungsi untuk mengambil data daftar poli
     async function fetchPoliList() {
@@ -62,6 +67,37 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+
+    async function fetchDokterList() {
+        try {
+            const response = await fetch(API_URL + '/api/petugas/dokter?limit=100&search=', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const result = await response.json();
+
+            if (result.status && result.data) {
+                dokterCodeEl.innerHTML = ''; // Bersihkan opsi loading
+                result.data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.kd_dokter;
+                    option.textContent = item.nm_dokter;
+                    dokterCodeEl.appendChild(option);
+                })
+            }
+        } catch (error) {
+            console.error('Error fetching poli list:', error);
+            // Fallback option jika gagal memuat dari API
+            dokterCodeEl.innerHTML = '<option value="-">-</option>';
+        }
+    }
+
     // Fungsi untuk mengambil data tabel pasien
     async function fetchData() {
         // Pastikan ada pilihan yang terpilih (jika fetch poli masih berjalan atau gagal)
@@ -72,9 +108,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const untilDate = dateUntilEl.value;
         const poliCode = poliCodeEl.value;
         const poliName = poliCodeEl.options[poliCodeEl.selectedIndex].text;
+        const dokterCode = dokterCodeEl.value;
 
         // Susun URL API secara dinamis berdasarkan filter
-        const apiUrl = `/api/ralan/poli/${poliCode}?from=${fromDate}&until=${untilDate}`;
+        const apiUrl = `/api/ralan/poli/${poliCode}?from=${fromDate}&until=${untilDate}&kd_dokter=${dokterCode}`;
 
         // Perbarui subtitle
         subtitleInfo.textContent = `${poliName} - Tanggal: ${fromDate} s/d ${untilDate}`;
@@ -150,14 +187,21 @@ document.addEventListener('DOMContentLoaded', function () {
         dataArray.forEach(item => {
             // Penentuan warna badge jenis kelamin
             const jkBadge = item.pasien.jk === 'L'
-                ? '<span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">L</span>'
-                : '<span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-800">P</span>';
+                ? '<span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-600">L</span>'
+                : '<span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-600">P</span>';
 
             const row = document.createElement('tr');
             row.className = 'hover:bg-gray-50 transition-colors duration-150';
+            row.addEventListener('click', () => {
+                handlePatientClick(item.no_rawat, item.pasien.no_rkm_medis, item.pasien.nm_pasien);
+            });
+            let noSEP = '-';
+            if (item.bridging_sep !== null) {
+                noSEP = item.bridging_sep.no_sep;
+            }
 
             row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-mono">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
                             ${item.no_rawat}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
@@ -166,18 +210,20 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <span class="text-xs text-gray-400">${item.tgl_registrasi}</span>
                             </div>
                         </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">
-                            <a href="javascript:void(0)" onclick="handlePatientClick('${item.no_rawat}', '${item.pasien.no_rkm_medis}','${item.pasien.nm_pasien}')" class="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer">
-                                ${item.pasien.no_rkm_medis}
-                            </a>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
+                             ${noSEP}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">${item.pasien.nm_pasien}</div>
+                        <div class="flex flex-col">
+                                <div class="text-sm font-medium text-gray-900">${item.pasien.nm_pasien}</div>
+                                <span class="text-xs text-gray-400">${item.pasien.no_rkm_medis}</span>
+                            </div>
+                            
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             ${jkBadge}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             ${item.pasien.tgl_lahir}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -200,12 +246,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fungsi Inisialisasi: Tunggu daftar poli dimuat, baru load data tabel
     async function init() {
         await fetchPoliList();
+        await fetchDokterList();
         fetchData();
     }
 
     // Panggil inisialisasi saat halaman selesai dimuat
     init();
 });
+
 
 window.handlePatientClick = await function (noRawat, noRm, namapx) {
     console.log('Parameter diterima:', { noRawat, noRm });

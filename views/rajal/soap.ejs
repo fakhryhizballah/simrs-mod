@@ -1,41 +1,42 @@
-  <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6">
-            <button onclick="history.back()" class="mb-6 flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md shadow-sm transition duration-150">
+  <div class="glass glass-lg glass-gradient-light p-6 rounded-2xl mb-6">
+            <button onclick="history.back()" class="mb-6 flex items-center glass-button bg-gradient-to-r from-blue-500/40 to-cyan-500/40 hover:from-blue-500/60 hover:to-cyan-500/60 text-white font-bold py-2 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
             Kembali
         </button>
-        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-            </svg>
+        <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+            <span class="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-3"></span>
             Filter Riwayat Pemeriksaan (CPPT)
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">No. Rawat</label>
-                <input type="text" id="filter-no-rawat" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border">
+                <label class="glass-label text-gray-700">No. Rawat</label>
+                <input type="text" id="filter-no-rawat" class="w-full glass-input text-gray-900 mt-1">
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">No. RM</label>
-                <input type="text" id="filter-no-rm" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" readonly>
+                <label class="glass-label text-gray-700">No. RM</label>
+                <input type="text" id="filter-no-rm" class="w-full glass-input text-gray-900 mt-1" readonly>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Nama Pasien</label>
-                <input type="text" id="filter-nama" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" readonly>
+                <label class="glass-label text-gray-700">Nama Pasien</label>
+                <input type="text" id="filter-nama" class="w-full glass-input text-gray-900 mt-1" readonly>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Status Lanjut</label>
-                <select id="filter-status" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border bg-white">
+                <label class="glass-label text-gray-700">Status Lanjut</label>
+                <select id="filter-status" class="w-full glass-input text-gray-900 mt-1 bg-white/30">
                     <option value="Ralan">Ralan</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Kode Poli</label>
-                <input type="text" id="filter-kd-poli" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" value="" readonly>
+                <label class="glass-label text-gray-700">Kode Poli</label>
+                <input type="text" id="filter-kd-poli" class="w-full glass-input text-gray-900 mt-1" value="" readonly>
             </div>
             <div>
-                <button id="btn-cari" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md shadow-sm transition duration-150">
+                <button id="btn-cari" class="w-full glass-button bg-gradient-to-r from-green-500/40 to-emerald-500/40 hover:from-green-500/60 hover:to-emerald-500/60 text-white font-bold py-2.5 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200 flex items-center justify-center h-[46px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
                     Cari Riwayat
                 </button>
             </div>
@@ -45,73 +46,73 @@
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
         
         <!-- KOLOM KIRI: FORM INPUT / EDIT -->
-        <div class="xl:col-span-7 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden flex flex-col min-h-[600px]">
-            <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="font-semibold text-gray-800" id="form-title">Input Data Pemeriksaan (CPPT)</h3>
-                <button type="button" id="btn-reset" class="text-sm text-red-600 hover:text-red-800 font-medium hidden">Batal Edit</button>
+        <div class="glass glass-lg glass-gradient-light rounded-2xl overflow-hidden flex flex-col min-h-[600px]">
+            <div class="glass-gradient-dark bg-white/10 backdrop-blur-sm px-6 py-4 border-b border-white/20 flex justify-between items-center">
+                <h3 class="font-bold text-gray-800" id="form-title">Input Data Pemeriksaan (CPPT)</h3>
+                <button type="button" id="btn-reset" class="text-sm text-red-400 hover:text-red-300 font-bold hidden">✕ Batal Edit</button>
             </div>
             
-            <div class="p-4 flex-grow overflow-y-auto">
+            <div class="p-6 flex-grow overflow-y-auto">
                 <form id="form-pemeriksaan" class="space-y-6">
                     <!-- Info Dasar & Waktu -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="md:col-span-2">
-                            <label class="block text-xs font-medium text-gray-700 mb-1">No. Rawat Target</label>
-                            <input type="text" id="no_rawat" class="w-full border-gray-300 bg-gray-50 rounded-md shadow-sm sm:text-sm p-2 border" readonly>
+                            <label class="glass-label text-gray-700">No. Rawat Target</label>
+                            <input type="text" id="no_rawat" class="w-full glass-input text-gray-900 mt-1" readonly>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-gray-700 mb-1">Tanggal</label>
-                            <input type="date" id="tgl_perawatan" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" readonly>
+                            <label class="glass-label text-gray-700">Tanggal</label>
+                            <input type="date" id="tgl_perawatan" class="w-full glass-input text-gray-900 mt-1" readonly>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-gray-700 mb-1">Jam</label>
-                            <input type="time" id="jam_rawat" step="1" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm p-2 border" readonly>
+                            <label class="glass-label text-gray-700">Jam</label>
+                            <input type="time" id="jam_rawat" step="1" class="w-full glass-input text-gray-900 mt-1" readonly>
                         </div>
                     </div>
 
                     <!-- Tanda Vital -->
                     <div>
-                        <h4 class="text-sm font-semibold text-gray-600 border-b pb-1 mb-3">Tanda Vital & Fisik</h4>
+                        <h4 class="text-sm font-bold text-gray-700 border-b border-white/20 pb-2 mb-4">Tanda Vital & Fisik</h4>
                         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">Suhu (°C)</label>
-                                <input type="text" id="suhu_tubuh" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
+                                <label class="glass-label text-gray-600">Suhu (°C)</label>
+                                <input type="text" id="suhu_tubuh" class="w-full glass-input text-gray-900 mt-1" required>
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">Tensi (mmHg)</label>
-                                <input type="text" id="tensi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required placeholder="120/80">
+                                <label class="glass-label text-gray-600">Tensi (mmHg)</label>
+                                <input type="text" id="tensi" class="w-full glass-input text-gray-900 mt-1" required placeholder="120/80">
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">Nadi (x/mnt)</label>
-                                <input type="text" id="nadi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
+                                <label class="glass-label text-gray-600">Nadi (x/mnt)</label>
+                                <input type="text" id="nadi" class="w-full glass-input text-gray-900 mt-1" required>
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">Respirasi (x/mnt)</label>
-                                <input type="text" id="respirasi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
+                                <label class="glass-label text-gray-600">Respirasi (x/mnt)</label>
+                                <input type="text" id="respirasi" class="w-full glass-input text-gray-900 mt-1" required>
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">SpO2 (%)</label>
-                                <input type="text" id="spo2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
+                                <label class="glass-label text-gray-600">SpO2 (%)</label>
+                                <input type="text" id="spo2" class="w-full glass-input text-gray-900 mt-1" required>
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">Tinggi (cm)</label>
-                                <input type="text" id="tinggi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
+                                <label class="glass-label text-gray-600">Tinggi (cm)</label>
+                                <input type="text" id="tinggi" class="w-full glass-input text-gray-900 mt-1" required>
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">Berat (Kg)</label>
-                                <input type="text" id="berat" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
+                                <label class="glass-label text-gray-600">Berat (Kg)</label>
+                                <input type="text" id="berat" class="w-full glass-input text-gray-900 mt-1" required>
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">GCS</label>
-                                <input type="text" id="gcs" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required placeholder="E,V,M">
+                                <label class="glass-label text-gray-600">GCS</label>
+                                <input type="text" id="gcs" class="w-full glass-input text-gray-900 mt-1" required placeholder="E,V,M">
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">L. Perut (cm)</label>
-                                <input type="text" id="lingkar_perut" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required>
+                                <label class="glass-label text-gray-600">L. Perut (cm)</label>
+                                <input type="text" id="lingkar_perut" class="w-full glass-input text-gray-900 mt-1" required>
                             </div>
                             <div>
-                                <label class="block text-xs text-gray-600 mb-1">Kesadaran</label>
-                                <select id="kesadaran" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm bg-white">
+                                <label class="glass-label text-gray-600">Kesadaran</label>
+                                <select id="kesadaran" class="w-full glass-input text-gray-900 mt-1 bg-white/30">
                                     <option value="Compos Mentis">Compos Mentis</option>
                                     <option value="Somnolence">Somnolence</option>
                                     <option value="Sopor">Sopor</option>
@@ -124,31 +125,31 @@
 
                     <!-- SOAP -->
                     <div>
-                        <h4 class="text-sm font-semibold text-gray-600 border-b pb-1 mb-3">Subjektif, Objektif, Asesmen & Plan (SOAP)</h4>
+                        <h4 class="text-sm font-bold text-gray-700 border-b border-white/20 pb-2 mb-4">Subjektif, Objektif, Asesmen & Plan (SOAP)</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Subjektif / Keluhan</label>
-                                <textarea id="keluhan" rows="3" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
+                                <label class="glass-label text-gray-700">Subjektif / Keluhan</label>
+                                <textarea id="keluhan" rows="3" class="w-full glass-input text-gray-900 mt-1" required></textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Objektif / Pemeriksaan Fisik</label>
-                                <textarea id="pemeriksaan" rows="3" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
+                                <label class="glass-label text-gray-700">Objektif / Pemeriksaan Fisik</label>
+                                <textarea id="pemeriksaan" rows="3" class="w-full glass-input text-gray-900 mt-1" required></textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Asesmen / Penilaian</label>
-                                <textarea id="penilaian" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
+                                <label class="glass-label text-gray-700">Asesmen / Penilaian</label>
+                                <textarea id="penilaian" rows="2" class="w-full glass-input text-gray-900 mt-1" required></textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Plan / RTL (Rencana Tindak Lanjut)</label>
-                                <textarea id="rtl" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
+                                <label class="glass-label text-gray-700">Plan / RTL (Rencana Tindak Lanjut)</label>
+                                <textarea id="rtl" rows="2" class="w-full glass-input text-gray-900 mt-1" required></textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Instruksi Medis</label>
-                                <textarea id="instruksi" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
+                                <label class="glass-label text-gray-700">Instruksi Medis</label>
+                                <textarea id="instruksi" rows="2" class="w-full glass-input text-gray-900 mt-1" required></textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Evaluasi</label>
-                                <textarea id="evaluasi" rows="2" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" required></textarea>
+                                <label class="glass-label text-gray-700">Evaluasi</label>
+                                <textarea id="evaluasi" rows="2" class="w-full glass-input text-gray-900 mt-1" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -156,17 +157,17 @@
                     <!-- Alergi & Petugas -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-medium text-gray-700 mb-1">Riwayat Alergi</label>
-                            <input type="text" id="alergi" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" placeholder="Tidak ada alergi..." required>
+                            <label class="glass-label text-gray-700">Riwayat Alergi</label>
+                            <input type="text" id="alergi" class="w-full glass-input text-gray-900 mt-1" placeholder="Tidak ada alergi..." required>
                         </div>
-                        <div class="grid grid-cols-2 gap-1">
+                        <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">NIP Petugas/Dokter</label>
-                                <input type="text" id="nip" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" readonly>
+                                <label class="glass-label text-gray-700">NIP Petugas/Dokter</label>
+                                <input type="text" id="nip" class="w-full glass-input text-gray-900 mt-1" readonly>
                             </div>
                             <div>
-                                <label class="block text-xs font-medium text-gray-700 mb-1">Nama Petugas/Dokter</label>
-                                <input type="text" id="nama_pegawai" class="w-full border-gray-300 rounded-md shadow-sm p-2 border sm:text-sm" readonly>
+                                <label class="glass-label text-gray-700">Nama Petugas/Dokter</label>
+                                <input type="text" id="nama_pegawai" class="w-full glass-input text-gray-900 mt-1" readonly>
                             </div>
                         </div>
                     </div>

@@ -12,25 +12,36 @@
                 </div>
                 <div>
                     <span class="font-bold text-gray-800 text-lg" id="total-pasien">0</span>
-                    <p class="text-xs text-gray-600">Pasien Terdaftar</p>
+                    <p class="text-xs text-gray-800">Pasien Terdaftar</p>
                 </div>
             </div>
         </div>
 
          <!-- Filter Pencarian -->
-        <div class="glass glass-lg glass-gradient-light mb-8 p-6 flex flex-wrap gap-6 items-end">
+        <div class="glass glass-lg glass-gradient-light p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 items-end shadow-xl">
             <div class="flex-1 min-w-[150px]">
-                <label for="poli-code" class="glass-label text-gray-700">Poli Tujuan</label>
+                <label for="poli-code" class="glass-label text-white/80">Poli Tujuan</label>
                 <select id="poli-code" class="w-full glass-input text-gray-900 bg-white/20 mt-2">
                     <option value="">Memuat data poli...</option>
                 </select>
             </div>
             <div class="flex-1 min-w-[150px]">
-                <label for="date-from" class="glass-label text-gray-700">Dari Tanggal</label>
+                <label for="dokter-code" class="glass-label text-white/80">Dokter</label>
+                <select id="dokter-code" class="w-full glass-input text-gray-900 bg-white/20 mt-2">
+                    <option value="">Memuat data dokter...</option>
+                </select>
+            </div>
+            <div class="flex-1 min-w-[150px]">
+                <label for="cari-code" class="glass-label text-white/80">Cari Pasien</label>
+                <input id="cari-code" type="text" class="w-full glass-input text-gray-900 bg-white/20 mt-2">
+                </input>
+            </div>
+            <div class="flex-1 min-w-[150px]">
+                <label for="date-from" class="glass-label text-white/80">Dari Tanggal</label>
                 <input type="date" id="date-from" class="w-full glass-input text-gray-900 mt-2">
             </div>
             <div class="flex-1 min-w-[150px]">
-                <label for="date-until" class="glass-label text-gray-700">Sampai Tanggal</label>
+                <label for="date-until" class="glass-label text-white/80">Sampai Tanggal</label>
                 <input type="date" id="date-until" class="w-full glass-input text-gray-900 mt-2">
             </div>
             <div>
@@ -64,13 +75,13 @@
                 <table class="min-w-full divide-y divide-white/20">
                     <thead class="glass-gradient-dark bg-white/10 backdrop-blur-sm">
                         <tr>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">No. Rawat</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Waktu Registrasi</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">No. RM</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Nama Pasien</th>
-                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">L/P</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Tanggal Lahir</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Dokter Tujuan</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">No. Rawat</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Waktu Registrasi</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">No. RM</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Nama Pasien</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-white/80 uppercase tracking-wider">L/P</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Tanggal Lahir</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Dokter Tujuan</th>
                         </tr>
                     </thead>
                     <tbody id="table-body" class="divide-y divide-white/10 bg-white/5">
