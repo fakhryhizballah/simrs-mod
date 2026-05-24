@@ -2,6 +2,7 @@ import { getCookieValue } from "./cookie.js";
 import { setCache, getCache } from "./indexdb.js";
 let API_URL = getCookieValue('API_URL');
 let token = getCookieValue('token');
+let decoded = JSON.parse(getCookieValue('decoded'));
 document.addEventListener('DOMContentLoaded', function () {
 
     // Elemen DOM
@@ -85,10 +86,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (result.status && result.data) {
                 dokterCodeEl.innerHTML = ''; // Bersihkan opsi loading
                 result.data.forEach(item => {
-                    const option = document.createElement('option');
-                    option.value = item.kd_dokter;
-                    option.textContent = item.nm_dokter;
-                    dokterCodeEl.appendChild(option);
+                    if (item.kd_dokter == decoded.username) {
+                        const option = document.createElement('option');
+                        option.value = item.kd_dokter;
+                        option.textContent = item.nm_dokter;
+                        option.selected = true;
+                        dokterCodeEl.appendChild(option);
+                    } else {
+                        const option = document.createElement('option');
+                        option.value = item.kd_dokter;
+                        option.textContent = item.nm_dokter;
+                        dokterCodeEl.appendChild(option);
+                    };
+
                 })
             }
         } catch (error) {
@@ -147,6 +157,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Update jumlah rekor
                 totalPasienEl.textContent = result.record;
+
+                // Simpan data asli untuk filtering
+                originalData = result.data;
+
+                // Reset input pencarian
+                cariCodeEl.value = '';
 
                 // Render baris tabel
                 renderTable(result.data);
@@ -207,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                             <div class="flex flex-col">
                                 <span>${item.jam_reg}</span>
-                                <span class="text-xs text-gray-400">${item.tgl_registrasi}</span>
+                                <span class="text-xs text-stone-700/50">${item.tgl_registrasi}</span>
                             </div>
                         </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
@@ -216,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex flex-col">
                                 <div class="text-sm font-medium text-gray-900">${item.pasien.nm_pasien}</div>
-                                <span class="text-xs text-gray-400">${item.pasien.no_rkm_medis}</span>
+                                <span class="text-xs text-stone-700/80">${item.pasien.no_rkm_medis}</span>
                             </div>
                             
                         </td>
@@ -239,6 +255,31 @@ document.addEventListener('DOMContentLoaded', function () {
             tableBody.appendChild(row);
         });
     }
+
+    // Fungsi untuk filter data berdasarkan pencarian nama atau RM
+    function filterTableBySearch(searchTerm) {
+        if (!searchTerm.trim()) {
+            // Jika search kosong, tampilkan semua data asli
+            renderTable(originalData);
+            totalPasienEl.textContent = originalData.length;
+            return;
+        }
+
+        const searchLower = searchTerm.toLowerCase();
+        const filteredData = originalData.filter(item => {
+            const nmPasien = item.pasien.nm_pasien.toLowerCase();
+            const noRm = item.pasien.no_rkm_medis.toLowerCase();
+            return nmPasien.includes(searchLower) || noRm.includes(searchLower);
+        });
+
+        renderTable(filteredData);
+        totalPasienEl.textContent = filteredData.length;
+    }
+
+    // Event listener untuk pencarian real-time
+    cariCodeEl.addEventListener('input', function () {
+        filterTableBySearch(this.value);
+    });
 
     // Event listener untuk tombol filter
     btnFilter.addEventListener('click', fetchData);

@@ -5,11 +5,10 @@ let token = getCookieValue('token');
 let decoded = JSON.parse(getCookieValue('decoded'));
 console.log(decoded.username)
 
-document.addEventListener('DOMContentLoaded',async function () {
-    console.log(await getCache('noRawat', 60 * 60 * 24 * 7));
+document.addEventListener('DOMContentLoaded', async function () {
     // --- Referensi Elemen DOM ---
     // Filter
- document.getElementById('filter-no-rawat').value = await getCache('noRawat', 60 * 60 * 24 * 7);
+    document.getElementById('filter-no-rawat').value = ''
  document.getElementById('filter-no-rm').value = await getCache('noRm', 60 * 60 * 24 * 7);
  document.getElementById('filter-nama').value = await getCache('namapx', 60 * 60 * 24 * 7);
  document.getElementById('filter-kd-poli').value = await getCache('kdPoli', 60 * 60 * 24 * 7);
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded',async function () {
     let currentRiwayatData = [];
 
     // --- Fungsi Format Waktu Saat Ini ---
-    function setWaktuSekarang() {
+    async function setWaktuSekarang() {
         const now = new Date();
         const yyyy = now.getFullYear();
         const mm = String(now.getMonth() + 1).padStart(2, '0');
@@ -47,7 +46,7 @@ document.addEventListener('DOMContentLoaded',async function () {
 
         document.getElementById('tgl_perawatan').value = `${yyyy}-${mm}-${dd}`;
         document.getElementById('jam_rawat').value = `${hh}:${min}:${sec}`;
-        document.getElementById('no_rawat').value = inputFilterNoRawat.value;
+        document.getElementById('no_rawat').value = await getCache('noRawat', 60 * 60 * 24 * 7);;
     }
 
     // --- Fungsi Ambil Data Riwayat ---
