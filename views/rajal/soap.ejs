@@ -1,10 +1,10 @@
 <div class="glass glass-lg glass-gradient-light p-6 shadow-glass rounded-2xl mb-6">
     <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+        <h2 class="text-3xl font-bold text-gray-800 flex items-center">
             <span class="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-3"></span>
             SOAP - Subjektif, Objektif, Asesmen & Plan
         </h2>
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-4 text-xl">
                    <button onclick="history.back()" class="mb-6 flex items-center glass-button bg-gradient-to-r from-blue-500/40 to-cyan-500/40 hover:from-blue-500/60 hover:to-cyan-500/60 text-white font-bold py-2 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -13,11 +13,11 @@
                     </button>
         </div>
     </div>
-    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
         <span class="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-3"></span>
         Filter Riwayat Pemeriksaan (CPPT)
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-2xl items-end">
         <div>
             <label class="glass-label text-gray-600">No. Rawat</label>
             <input type="text" id="filter-no-rawat" class="w-full glass-input text-gray-900 mt-1">
@@ -52,7 +52,7 @@
 </div>
 <div class="glass glass-md glass-card glass-gradient-light rounded-xl mb-6 flex flex-col min-h-[400px]">
             <div class="glass-gradient-dark px-4 py-3 border-b border-white/20 flex justify-between items-center rounded-t-xl">
-                <h3 class="font-semibold text-gray-800">Riwayat Pemeriksaan</h3>
+                <h3 class="font-semibold text-gray-800 text-2xl">Riwayat Pemeriksaan</h3>
                 <span class="glass-badge bg-blue-500/20 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full border border-blue-500/30" id="count-riwayat">0 Data</span>
             </div>
             
@@ -64,20 +64,20 @@
                     </svg>
                     <p class="text-sm text-gray-600">Memuat data riwayat...</p>
                 </div>
-                <div id="list-riwayat" class="space-y-4">
+                <div id="list-riwayat" class="space-y-4 text-2xl">
                 </div>
             </div>
         </div>
 
     <div class="glass glass-lg glass-gradient-light rounded-2xl overflow-hidden flex flex-col mb-6 min-h-[600px]">
         <div class="glass-gradient-dark bg-white/10 backdrop-blur-sm px-6 py-4 border-b border-white/20 flex justify-between items-center">
-            <h3 class="font-bold text-gray-800" id="form-title">Input Data Pemeriksaan (CPPT)</h3>
+            <h3 class="font-bold text-gray-800 text-2xl" id="form-title">Input Data Pemeriksaan (CPPT)</h3>
             <button type="button" id="btn-reset" class="text-sm text-red-400 hover:text-red-300 font-bold hidden">✕ Batal Edit</button>
         </div>
         
         <div class="p-6 flex-grow overflow-y-auto">
             <form id="form-pemeriksaan" class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-2xl">
                     <div class="md:col-span-2">
                         <label class="glass-label text-gray-600">No. Rawat Target</label>
                         <input type="text" id="no_rawat" class="w-full glass-input text-gray-900 mt-1" readonly>
@@ -93,8 +93,8 @@
                 </div>
 
                 <div>
-                    <h4 class="text-sm font-bold text-gray-600 border-b border-white/20 pb-2 mb-4 ">Tanda Vital & Fisik</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <h4 class="text-2xl font-bold text-gray-600 border-b border-white/20 pb-2 mb-4 ">Tanda Vital & Fisik</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-xl">
                         <div>
                             <label class="glass-label text-gray-600">Suhu (°C)</label>
                             <input type="text" id="suhu_tubuh" class="w-full glass-input text-gray-900 mt-1" required>
@@ -145,8 +145,8 @@
                 </div>
 
                 <div>
-                    <h4 class="text-sm font-bold text-gray-600 border-b border-white/20 pb-2 mb-4">Subjektif, Objektif, Asesmen & Plan (SOAP)</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <h4 class="text-2xl font-bold text-gray-600 border-b border-white/20 pb-2 mb-4">Subjektif, Objektif, Asesmen & Plan (SOAP)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xl">
                         <div>
                             <label class="glass-label text-gray-600">Subjektif / Keluhan</label>
                             <textarea id="keluhan" rows="4" class="w-full glass-input text-gray-900 mt-1" required></textarea>
@@ -174,7 +174,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xl">
                     <div>
                         <label class="glass-label text-gray-600">Riwayat Alergi</label>
                         <input type="text" id="alergi" class="w-full glass-input text-gray-900 mt-1" placeholder="Tidak ada alergi..." required>
@@ -207,7 +207,7 @@
 
         <div class="glass glass-md glass-card glass-gradient-light rounded-xl flex flex-col min-h-[400px]">
             <div class="glass-gradient-dark px-4 py-3 border-b border-white/20 flex justify-between items-center rounded-t-xl">
-                <h3 class="font-semibold text-gray-800">Berkas digital</h3>
+                <h3 class="font-semibold text-gray-800 text-2xl">Berkas digital</h3>
             </div>
             
             <div class="p-4 flex-grow overflow-y-auto" id="container-berkas">

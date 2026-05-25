@@ -1,8 +1,8 @@
  <!-- Header Halaman -->
         <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div>
-                <h2 class="text-3xl font-bold text-gray-800">Daftar Pasien Rawat Jalan</h2>
-                <p class="text-gray-600 text-sm mt-2" id="subtitle-info">Pilih rentang tanggal dan poli untuk melihat data pasien</p>
+                <h2 class="text-4xl font-bold text-gray-800">Daftar Pasien Rawat Jalan</h2>
+                <p class="text-gray-600 text-2xl mt-2" id="subtitle-info">Pilih rentang tanggal dan poli untuk melihat data pasien</p>
             </div>
             <div class="glass glass-md glass-gradient-light px-6 py-3 flex items-center gap-3">
                 <div class="glass-sm glass-gradient-light p-2 rounded-full">
@@ -18,7 +18,7 @@
         </div>
 
          <!-- Filter Pencarian -->
-        <div class="glass glass-lg glass-gradient-light p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 items-end shadow-xl">
+        <div class="glass glass-lg glass-gradient-light p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 items-end shadow-xl text-2xl">
             <div class="flex-1 min-w-[150px]">
                 <label for="poli-code" class="glass-label text-white/80">Poli Tujuan</label>
                 <select id="poli-code" class="w-full glass-input text-gray-900 bg-white/20 mt-2">
@@ -71,17 +71,17 @@
 
         <!-- Tabel Data -->
         <div id="data-table-container" class="hidden glass glass-lg glass-gradient-light overflow-hidden rounded-2xl shadow-glass-lg">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-white/20">
-                    <thead class="glass-gradient-dark bg-white/10 backdrop-blur-sm">
+            <div class="flex-grow h-screen overflow-scroll">
+                <table class="min-w-full md-min-w-2 divide-y divide-white/20 table-fixed">
+                    <thead class="top-0 glass-gradient-dark bg-white/10 backdrop-blur-sm">
                         <tr>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">No. Rawat</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Waktu Registrasi</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">No. SEP</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Nama Pasien</th>
-                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-white/80 uppercase tracking-wider">L/P</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Tanggal Lahir</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white/80 uppercase tracking-wider">Dokter Tujuan</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">No. Rawat</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Waktu Registrasi</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">No. SEP</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Nama Pasien</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xl font-bold text-white/80 uppercase tracking-wider">L/P</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Tanggal Lahir</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Dokter Tujuan</th>
                         </tr>
                     </thead>
                     <tbody id="table-body" class="divide-y divide-white/10 bg-white/5">

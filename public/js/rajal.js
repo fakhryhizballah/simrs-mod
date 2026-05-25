@@ -217,33 +217,33 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
+                        <td class="px-6 py-4 whitespace-nowrap text-base text-white/80 font-mono">
                             ${item.no_rawat}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                        <td class="px-6 py-4 whitespace-nowrap text-base text-white/80 font-medium">
                             <div class="flex flex-col">
-                                <span>${item.jam_reg}</span>
-                                <span class="text-xs text-stone-700/50">${item.tgl_registrasi}</span>
+                            <span class=" text-white-700/50">${item.tgl_registrasi}</span>
+                            <span>${item.jam_reg}</span>
                             </div>
                         </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
+                            <td class="px-6 py-4 whitespace-nowrap text-base text-white/80 font-bold">
                              ${noSEP}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex flex-col">
-                                <div class="text-sm font-medium text-gray-900">${item.pasien.nm_pasien}</div>
-                                <span class="text-xs text-stone-700/80">${item.pasien.no_rkm_medis}</span>
+                                <div class="text-xl font-medium text-white/80">${item.pasien.nm_pasien}</div>
+                                <span class="text-base text-white/80">${item.pasien.no_rkm_medis}</span>
                             </div>
                             
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             ${jkBadge}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td class="px-6 py-4 whitespace-nowrap text-base text-white/80">
                             ${item.pasien.tgl_lahir}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 flex items-center">
+                            <div class="text-base text-white/80 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>

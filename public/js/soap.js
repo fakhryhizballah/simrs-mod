@@ -124,19 +124,19 @@ document.addEventListener('DOMContentLoaded', async function () {
             card.className = 'bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden';
 
             card.innerHTML = `
-                    <div class="bg-blue-50/50 px-3 py-2 border-b border-gray-100 flex justify-between items-start">
+                    <div class="bg-blue-50/50 px-3 py-2 border-b border-gray-100 flex justify-between items-start text-3xl">
                         <div>
-                            <div class="text-xs font-bold text-gray-800">${item.tgl_perawatan} <span class="text-gray-500 font-normal">| ${item.jam_rawat}</span></div>
+                            <div class="text-lg font-bold text-gray-800">${item.tgl_perawatan} <span class="text-gray-500 font-normal">| ${item.jam_rawat}</span></div>
                             <div class="text-[11px] text-gray-600 mt-0.5 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                                 ${item.pegawai?.nama || item.nip}
                             </div>
                         </div>
                          <div class="bg-blue-50/50 px-3 py-2 border-b border-gray-100 flex justify-between">
-                          <button onclick="copyPemeriksaan(${index})" class="text-xs bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
+                          <button onclick="copyPemeriksaan(${index})" class="text-lg bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
                             Copy
                         </button>
-                        <button onclick="editPemeriksaan(${index})" class="text-xs bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
+                        <button onclick="editPemeriksaan(${index})" class="text-lg bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
                             Edit
                         </button>
                          </div>
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     </div>
                     <div class="p-3">
                         <div class="flex flex-wrap gap-1.5 mb-2">${badgesHTML}</div>
-                        <div class="space-y-1.5 text-xs text-gray-700">
+                        <div class="space-y-1.5 text-lg text-gray-700">
                             ${item.keluhan ? `<p><strong class="text-gray-900">S:</strong> ${item.keluhan.replace(/\n/g, '<br>')}</p>` : ''}
                             ${item.pemeriksaan ? `<p><strong class="text-gray-900">O:</strong> ${item.pemeriksaan.replace(/\n/g, '<br>')}</p>` : ''}
                             ${item.penilaian ? `<p><strong class="text-gray-900">A:</strong> ${item.penilaian.replace(/\n/g, '<br>')}</p>` : ''}
@@ -362,7 +362,7 @@ function renderLampiran(files) {
     console.log(files);
     // Jika array kosong
     if (!files || files.length === 0) {
-        container.innerHTML = '<div class="col-span-full py-4 text-center border-2 border-dashed border-gray-200 rounded-lg"><p class="text-sm text-gray-500 italic">Tidak ada dokumen penunjang yang dilampirkan.</p></div>';
+        container.innerHTML = '<div class="col-span-full py-4 text-center border-2 border-dashed border-gray-200 rounded-lg"><p class="text-base text-gray-500 italic">Tidak ada dokumen penunjang yang dilampirkan.</p></div>';
         return;
     }
 
