@@ -18,7 +18,7 @@
         </div>
 
          <!-- Filter Pencarian -->
-        <div class="glass glass-lg glass-gradient-light p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 items-end shadow-xl text-2xl">
+        <div class="glass glass-lg glass-gradient-light p-6 mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 items-end shadow-xl text-xl">
             <div class="flex-1 min-w-[150px]">
                 <label for="poli-code" class="glass-label text-white/80">Poli Tujuan</label>
                 <select id="poli-code" class="w-full glass-input text-gray-900 bg-white/20 mt-2">
@@ -33,7 +33,7 @@
             </div>
             <div class="flex-1 min-w-[150px]">
                 <label for="cari-code" class="glass-label text-white/80">Cari Pasien</label>
-                <input id="cari-code" type="text" class="w-full glass-input text-gray-900 bg-white/20 mt-2">
+                <input id="cari-code" type="text" placeholder="Nama / No.RM" class="w-full glass-input text-gray-900 bg-white/20 mt-2">
                 </input>
             </div>
             <div class="flex-1 min-w-[150px]">
@@ -70,21 +70,21 @@
         </div>
 
         <!-- Tabel Data -->
-        <div id="data-table-container" class="hidden glass glass-lg glass-gradient-light overflow-hidden rounded-2xl shadow-glass-lg">
-            <div class="flex-grow h-screen overflow-scroll">
-                <table class="min-w-full md-min-w-2 divide-y divide-white/20 table-fixed">
-                    <thead class="top-0 glass-gradient-dark bg-white/10 backdrop-blur-sm">
+        <div id="data-table-container" class="hidden glass glass-lg glass-gradient-light overflow-hidden rounded-2xl shadow-glass-lg w-full">
+            <div class="w-full max-h-[70vh] overflow-y-auto">
+                <table class="w-full divide-y divide-white/20 table-fixed border-collapse border border-gray-400">
+                    <thead class="top-0 glass-gradient-dark bg-white/10 backdrop-blur-xl ">
                         <tr>
                             <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">No. Rawat</th>
                             <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Waktu Registrasi</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">No. SEP</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Nama Pasien</th>
-                            <th scope="col" class="px-6 py-4 text-center text-xl font-bold text-white/80 uppercase tracking-wider">L/P</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-normal">No. SEP</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-normal">Nama Pasien</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">L/P</th>
                             <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Tanggal Lahir</th>
                             <th scope="col" class="px-6 py-4 text-left text-xl font-bold text-white/80 uppercase tracking-wider">Dokter Tujuan</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body" class="divide-y divide-white/10 bg-white/5">
+                    <tbody id="table-body" class="glass-gradient-dark bg-black/10 backdrop-blur-xl divide-y divide-white/10">
                         <!-- Baris data akan dirender di sini oleh JavaScript -->
                     </tbody>
                 </table>

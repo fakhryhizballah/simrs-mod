@@ -1,4 +1,4 @@
-const CACHE_NAME = 'simrs-cache-v2';
+const CACHE_NAME = 'simrs-cache-v3';
 const urlsToCache = [
   '/',
   '/asset/js/',
