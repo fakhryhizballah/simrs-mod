@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 : '<span class="px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-600">P</span>';
 
             const row = document.createElement('tr');
-            row.className = 'hover:bg-gray-50 transition-colors duration-150';
+            row.className = 'cursor-pointer transition-colors duration-150';
             row.addEventListener('click', () => {
                 handlePatientClick(item.no_rawat, item.pasien.no_rkm_medis, item.pasien.nm_pasien);
             });
