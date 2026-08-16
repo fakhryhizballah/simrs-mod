@@ -1,0 +1,167 @@
+<div class="glass glass-lg glass-gradient-light p-6 shadow-glass rounded-2xl mb-6">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+      <span class="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-3"></span>
+      Pemeriksaan Visus dan Refraksi
+    </h2>
+    <div class="flex items-center space-x-4">
+      <button onclick="history.back()" class="flex items-center glass-button bg-gradient-to-r from-blue-500/40 to-cyan-500/40 hover:from-blue-500/60 hover:to-cyan-500/60 text-white font-bold py-2 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Kembali
+      </button>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-xl items-end">
+    <div>
+      <label class="glass-label text-black/90">No. Rawat</label>
+      <input type="text" id="filter-no-rawat" class="w-full glass-input text-gray-900 mt-1" readonly>
+    </div>
+    <div>
+      <label class="glass-label text-black/90">No. RM</label>
+      <input type="text" id="filter-no-rm" class="w-full glass-input text-gray-900 mt-1" readonly>
+    </div>
+    <div>
+      <label class="glass-label text-black/90">Nama Pasien</label>
+      <input type="text" id="filter-nama" class="w-full glass-input text-gray-900 mt-1" readonly>
+    </div>
+    <div>
+      <label class="glass-label text-black/90">Status Lanjut</label>
+      <select id="filter-status" class="w-full glass-input text-gray-900 mt-1 bg-white/30">
+        <option value="Ralan">Ralan</option>
+      </select>
+    </div>
+    <div>
+      <label class="glass-label text-black/90">Kode Poli</label>
+      <input type="text" id="filter-kd-poli" class="w-full glass-input text-gray-900 mt-1" readonly>
+    </div>
+  </div>
+</div>
+
+<div class="glass glass-lg glass-gradient-light p-6 shadow-glass rounded-2xl">
+
+  <!-- Card Refraksi (Koreksi Lensa) -->
+  <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl overflow-hidden">
+    <h2 class="text-xl font-semibold text-white/100 mb-4 border-b border-white/10 pb-2">Koreksi Lensa</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-white/15 text-xs text-white uppercase tracking-wider">
+            <th class="px-4 py-3 font-semibold">Mata</th>
+            <th class="px-4 py-3 font-semibold">SPH</th>
+            <th class="px-4 py-3 font-semibold">CYL</th>
+            <th class="px-4 py-3 font-semibold">AXIS</th>
+            <th class="px-4 py-3 font-semibold">Visus CC</th>
+            <th class="px-4 py-3 font-semibold">ADD</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/10 text-white">
+          <!-- OD (Mata Kanan) -->
+          <tr class="hover:bg-red-500/10 transition-colors">
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-3">
+                <span class="w-2 h-8 bg-red-400 rounded-full shadow-lg shadow-red-500/50"></span>
+                <div>
+                  <p class="font-bold text-white">OD</p>
+                  <p class="text-xs text-white">Kanan</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="od-sph" list="sph-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="od-cyl" list="cyl-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="od-axis" list="axis-list" class="w-24 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none transition-all" disabled>
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="od-visus-cc" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="od-add" list="add-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
+            </td>
+          </tr>
+          <!-- OS (Mata Kiri) -->
+          <tr class="hover:bg-blue-500/10 transition-colors">
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-3">
+                <span class="w-2 h-8 bg-blue-400 rounded-full shadow-lg shadow-blue-500/50"></span>
+                <div>
+                  <p class="font-bold text-white">OS</p>
+                  <p class="text-xs text-white">Kiri</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="os-sph" list="sph-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="os-cyl" list="cyl-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="os-axis" list="axis-list" class="w-24 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none transition-all" disabled>
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="os-visus-cc" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="os-add" list="add-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Card Tambahan (Footer) -->
+  <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl mt-4">
+    <h2 class="text-xl font-semibold text-white/90 mb-4 border-b border-white/10 pb-2">Detail Tambahan</h2>
+    <div class="mb-6">
+      <label for="pd-input" class="block text-sm font-medium text-white mb-2">PD (Pupillary Distance):</label>
+      <input type="text" id="pd-input" list="pd-list" class="w-32 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/20 transition-all">
+    </div>
+    <div class="flex flex-wrap gap-4">
+      <button id="save-button" class="px-5 py-2.5 rounded-xl bg-emerald-500/80 hover:bg-emerald-500 text-white font-semibold backdrop-blur-sm border border-emerald-400/30 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all active:scale-95">
+        Simpan Data
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Suggestion Lists -->
+<datalist id="sph-list">
+  <% const sphValues = [-3.00, -2.75, -2.50, -2.25, -2.00, -1.75, -1.50, -1.25, -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 2.00]; %>
+  <% sphValues.forEach(val => { %>
+    <option value="<%= val.toFixed(2) %>"></option>
+  <% }); %>
+</datalist>
+
+<datalist id="cyl-list">
+  <% const cylValues = [-3.00, -2.75, -2.50, -2.25, -2.00, -1.75, -1.50, -1.25, -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 2.00]; %>
+  <% cylValues.forEach(val => { %>
+    <option value="<%= val.toFixed(2) %>"></option>
+  <% }); %>
+</datalist>
+
+<datalist id="axis-list">
+  <% for(let i = 1; i <= 180; i += 5) { %>
+    <option value="<%= i %>"></option>
+  <% } %>
+</datalist>
+
+<datalist id="add-list">
+  <% const addValues = [0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50]; %>
+  <% addValues.forEach(val => { %>
+    <option value="<%= val.toFixed(2) %>"></option>
+  <% }); %>
+</datalist>
+
+<datalist id="pd-list">
+  <% const pdValues = [60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; %>
+  <% pdValues.forEach(val => { %>
+    <option value="<%= val %>"></option>
+  <% }); %>
+</datalist>

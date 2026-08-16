@@ -13,6 +13,7 @@ router.get('/menu/inacbg_klaim/kirim/diagnosa', middleware.cekLogin, controller.
 
 router.get('/menu/rajal', middleware.cekLogin, controller.rajal);
 router.get('/rajal/soap', middleware.cekLogin, controller.rajal_soap);
+router.get('/rajal/visus', middleware.cekLogin, controller.rajal_visus);
 
 router.post('/login', ajax.login);
 

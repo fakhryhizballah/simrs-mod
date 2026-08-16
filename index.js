@@ -59,6 +59,30 @@ app.use(
 
 app.use("/", require("./routes/index"));
 
+const isDev = process.env.NODE_ENV !== 'production';
+console.log('isDev = ' + isDev);
+// app.use("/service-worker.js", express.static(path.join(__dirname + '/public/js/service-worker.js')));
+app.get('/sw.js', (req, res) => {
+    if (isDev) {
+        // Mode Development: Kirim kill-switch dan paksa no-cache
+        res.set({
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+            'Content-Type': 'application/javascript'
+        });
+
+        // Script ini memastikan SW apa pun yang masih "nyangkut" akan langsung mati
+        res.send(`
+      self.addEventListener('install', (e) => self.skipWaiting());
+      self.addEventListener('activate', (e) => {
+        e.waitUntil(self.registration.unregister().then(() => self.clients.claim()));
+      });
+    `);
+    } else {
+        // Mode Production: Kirim file sw.js yang sebenarnya
+        res.status(200).sendFile((path.join(__dirname, '/public/js/sw.js')));
+    }
+});
+
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

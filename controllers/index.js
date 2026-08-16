@@ -172,5 +172,21 @@ module.exports = {
             data.body = dashboardHtml;
             res.render("./layouts/main", data);
         });
+    },
+    rajal_visus: (req, res) => {
+        let data = {
+            title: "Pemeriksaan Visus dan Refraksi | SIMRS",
+            script: ["/asset/js/visus.js"] // Add any specific JS for visus page if needed
+        };
+
+        res.render("./rajal/visus", data, (err, visusHtml) => {
+            if (err) {
+                console.error("Error rendering views/rajal/visus.ejs:", err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            data.body = visusHtml;
+            res.render("./layouts/main", data);
+        });
     }
 }

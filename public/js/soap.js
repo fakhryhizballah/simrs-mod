@@ -3,7 +3,7 @@ import { setCache, getCache } from "./indexdb.js";
 let API_URL = getCookieValue('API_URL');
 let token = getCookieValue('token');
 let decoded = JSON.parse(getCookieValue('decoded'));
-console.log(decoded.username)
+// console.log(decoded.username)
 
 document.addEventListener('DOMContentLoaded', async function () {
     // --- Referensi Elemen DOM ---
