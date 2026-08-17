@@ -1,6 +1,6 @@
 // service-worker.js
-const CACHE_NAME = 'simrs-mod-v1.0.0';
-const DYNAMIC_CACHE = 'simrs-mod-v1.0.0';
+const CACHE_NAME = 'simrs-mod-v1.1.0';
+const DYNAMIC_CACHE = 'simrs-mod-v1.1.0';
 
 // Daftar file statis yang harus ada di cache sejak awal (Pre-caching)
 const ASSETS_TO_CACHE = [
