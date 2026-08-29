@@ -3,6 +3,18 @@ import { setCache, getCache } from "./indexdb.js";
 let API_URL = getCookieValue('API_URL');
 let token = getCookieValue('token');
 let decoded = JSON.parse(getCookieValue('decoded'));
+let sessionStorage = window.sessionStorage;
+let dataSOAP = JSON.parse(sessionStorage.getItem('SOAP'));
+if (dataSOAP) {
+    console.log(dataSOAP)
+    document.getElementById('filter-no-rawat').value = dataSOAP.no_rawat;
+    document.getElementById('filter-no-rm').value = dataSOAP.no_rm;
+    document.getElementById('filter-nama').value = dataSOAP.nama;
+    document.getElementById('filter-kd-poli').value = dataSOAP.kd_poli;
+    document.getElementById('save-button').innerHTML = 'Update';
+
+}
+
 
 document.getElementById('filter-no-rawat').value = await getCache('noRawat', 60 * 60 * 24 * 7);
 document.getElementById('filter-no-rm').value = await getCache('noRm', 60 * 60 * 24 * 7);
@@ -46,25 +58,29 @@ function getRefraksiSummaryString() {
         return el && el.value.trim() !== '' ? el.value.trim() : null;
     };
 
-    const getEyeString = (prefix, sphId, cylId, axisId, visusId, addId) => {
+    const getEyeString = (prefix, visusDasarId, sphId, cylId, axisId, visusId, addId, prismBarId) => {
         const data = [];
+        const visusDasar = getValue(visusDasarId);
         const sph = getValue(sphId);
         const cyl = getValue(cylId);
         const axis = getValue(axisId);
         const visus = getValue(visusId);
         const add = getValue(addId);
+        const prismBar = getValue(prismBarId);
 
+        if (visusDasar) data.push(`VD:${visusDasar}`);
         if (sph) data.push(`SPH:${sph}`);
         if (cyl) data.push(`CYL:${cyl}`);
         if (axis && cyl && parseFloat(cyl) !== 0) data.push(`AXIS:${axis}`);
         if (visus) data.push(`NC:${visus}`);
         if (add) data.push(`ADD:${add}`);
+        if (prismBar) data.push(`PRISM:${prismBar}`);
 
         return data.length > 0 ? `${prefix} [${data.join(' ')}]` : null;
     };
 
-    const odStr = getEyeString('OD', 'od-sph', 'od-cyl', 'od-axis', 'od-visus-cc', 'od-add');
-    const osStr = getEyeString('OS', 'os-sph', 'os-cyl', 'os-axis', 'os-visus-cc', 'os-add');
+    const odStr = getEyeString('OD', 'od-visus-dasar', 'od-sph', 'od-cyl', 'od-axis', 'od-visus-cc', 'od-add', 'od-prism-bar');
+    const osStr = getEyeString('OS', 'os-visus-dasar', 'os-sph', 'os-cyl', 'os-axis', 'os-visus-cc', 'os-add', 'os-prism-bar');
     const pd = getValue('pd-input');
 
     const parts = [];
@@ -74,30 +90,33 @@ function getRefraksiSummaryString() {
 
     return parts.join(' | ');
 }
-console.log(getRefraksiSummaryString());
 
 function parseEyeDetails(text) {
-    const data = { sph: '', cyl: '', axis: '', visusCc: '', add: '' };
+    const data = { visusDasar: '', sph: '', cyl: '', axis: '', visusCc: '', add: '', prismBar: '' };
 
+    const visusDasarMatch = text.match(/VD:([\w\/.]+)/i);
     const sphMatch = text.match(/SPH:([+-]?[\d.]+)/i);
     const cylMatch = text.match(/CYL:([+-]?[\d.]+)/i);
     const axisMatch = text.match(/AXIS:([\d.]+)/i);
     const visusMatch = text.match(/NC:([\w\/.]+)/i);
     const addMatch = text.match(/ADD:([+-]?[\d.]+)/i);
+    const prismMatch = text.match(/PRISM:([\w\d.∆]+)/i);
 
+    if (visusDasarMatch) data.visusDasar = visusDasarMatch[1];
     if (sphMatch) data.sph = sphMatch[1];
     if (cylMatch) data.cyl = cylMatch[1];
     if (axisMatch) data.axis = axisMatch[1];
     if (visusMatch) data.visusCc = visusMatch[1];
     if (addMatch) data.add = addMatch[1];
+    if (prismMatch) data.prismBar = prismMatch[1];
 
     return data;
 }
 
 function parseRefraksiString(str) {
     const result = {
-        od: { sph: '', cyl: '', axis: '', visusCc: '', add: '' },
-        os: { sph: '', cyl: '', axis: '', visusCc: '', add: '' },
+        od: { visusDasar: '', sph: '', cyl: '', axis: '', visusCc: '', add: '', prismBar: '' },
+        os: { visusDasar: '', sph: '', cyl: '', axis: '', visusCc: '', add: '', prismBar: '' },
         pd: ''
     };
 
@@ -126,17 +145,21 @@ function populateRefraksiForm(refraksiString) {
     const parsedData = parseRefraksiString(refraksiString);
 
     const fieldMap = {
+        'od-visus-dasar': parsedData.od.visusDasar,
         'od-sph': parsedData.od.sph,
         'od-cyl': parsedData.od.cyl,
         'od-axis': parsedData.od.axis,
         'od-visus-cc': parsedData.od.visusCc,
         'od-add': parsedData.od.add,
+        'od-prism-bar': parsedData.od.prismBar,
 
+        'os-visus-dasar': parsedData.os.visusDasar,
         'os-sph': parsedData.os.sph,
         'os-cyl': parsedData.os.cyl,
         'os-axis': parsedData.os.axis,
         'os-visus-cc': parsedData.os.visusCc,
         'os-add': parsedData.os.add,
+        'os-prism-bar': parsedData.os.prismBar,
 
         'pd-input': parsedData.pd
     };
@@ -155,36 +178,41 @@ function populateRefraksiForm(refraksiString) {
 
     return parsedData;
 }
+
 function getRefraksiStandardString() {
     const getValue = (id) => {
         const el = document.getElementById(id);
         return el && el.value.trim() !== '' ? el.value.trim() : null;
     };
 
-    const formatEyeData = (prefix, sphId, cylId, axisId, visusId, addId) => {
+    const formatEyeData = (prefix, visusDasarId, sphId, cylId, axisId, visusId, addId, prismBarId) => {
+        const visusDasar = getValue(visusDasarId);
         const sph = getValue(sphId);
         const cyl = getValue(cylId);
         const axis = getValue(axisId);
         const visus = getValue(visusId);
         const add = getValue(addId);
+        const prismBar = getValue(prismBarId);
 
         // Jika tidak ada data sama sekali untuk mata ini
-        if (!sph && !cyl && !visus && !add) return null;
+        if (!visusDasar && !sph && !cyl && !visus && !add && !prismBar) return null;
 
         const parts = [];
+        if (visusDasar) parts.push(`VD ${visusDasar}`);
         if (sph) parts.push(`SPH ${sph}`);
         if (cyl) {
             parts.push(`CYL ${cyl}`);
             if (axis) parts.push(`x ${axis}°`);
         }
-        if (visus) parts.push(`CC ${visus}`); // Menggunakan CC (cum correctione)
+        if (visus) parts.push(`V ${visus}`);
         if (add) parts.push(`ADD ${add}`);
+        if (prismBar) parts.push(`PRISM ${prismBar}`);
 
         return `${prefix}: ${parts.join(' ')}`;
     };
 
-    const odString = formatEyeData('OD', 'od-sph', 'od-cyl', 'od-axis', 'od-visus-cc', 'od-add');
-    const osString = formatEyeData('OS', 'os-sph', 'os-cyl', 'os-axis', 'os-visus-cc', 'os-add');
+    const odString = formatEyeData('OD', 'od-visus-dasar', 'od-sph', 'od-cyl', 'od-axis', 'od-visus-cc', 'od-add', 'od-prism-bar');
+    const osString = formatEyeData('OS', 'os-visus-dasar', 'os-sph', 'os-cyl', 'os-axis', 'os-visus-cc', 'os-add', 'os-prism-bar');
     const pd = getValue('pd-input');
 
     const result = [];
@@ -194,7 +222,6 @@ function getRefraksiStandardString() {
 
     return result.join(' | ');
 }
-
 
 document.getElementById('save-button').addEventListener('click', async () => {
     const summaryString = getRefraksiSummaryString();
@@ -207,69 +234,141 @@ document.getElementById('save-button').addEventListener('click', async () => {
     let tgl_perawatan = new Date().toISOString().split('T')[0];
     let jam_rawat = new Date().toTimeString().split(' ')[0];
     // alert(`Data Ringkas Refraksi:\n${summaryString}`);
-    let data = {
-        no_rawat: inputFilterNoRawat.value,
-        nip: decoded.username,
-        pemeriksaan: standardString,
-        kesadaran: "Compos Mentis",
-        tgl_perawatan: tgl_perawatan,
-        jam_rawat: jam_rawat,
-        keluhan: '-',
-        alergi: '-',
-        penilaian: '-',
-        instruksi: '-',
-        tensi: '-',
-        spo2: '99',
-        nadi: '-',
-        gcs: '15',
-        rtl: '-',
-        respirasi: '-',
-        tinggi: '-',
-        berat: '-',
-        suhu_tubuh: '-',
-        evaluasi: '-'
-    }
-    let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify(data)
-    })
-    simpandata = await simpandata.json();
-    console.log(simpandata);
-    if (simpandata.status === true) {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'success',
-            title: 'Data Berhasil Disimpan'
-        })
+    let dataSOAP = JSON.parse(sessionStorage.getItem('SOAP'));
+    if (dataSOAP) {
+        let data = {
+            no_rawat: inputFilterNoRawat.value,
+            nip: decoded.username,
+            pemeriksaan: standardString,
+            kesadaran: dataSOAP.kesadaran,
+            tgl_perawatan: dataSOAP.tgl_perawatan,
+            jam_rawat: dataSOAP.jam_rawat,
+            keluhan: dataSOAP.keluhan,
+            alergi: dataSOAP.alergi,
+            penilaian: dataSOAP.penilaian,
+            instruksi: dataSOAP.instruksi,
+            tensi: dataSOAP.tensi,
+            spo2: dataSOAP.spo2,
+            nadi: dataSOAP.nadi,
+            gcs: dataSOAP.gcs,
+            rtl: dataSOAP.rtl,
+            respirasi: dataSOAP.respirasi,
+            tinggi: dataSOAP.tinggi,
+            berat: dataSOAP.berat,
+            suhu_tubuh: dataSOAP.suhu_tubuh,
+            evaluasi: dataSOAP.evaluasi
+        }
+        let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(data)
+        }
+        )
+        simpandata = await simpandata.json();
+        console.log(simpandata);
+        if (simpandata.status == true) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: 'Data diupdate'
+            })
+        } else {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'error',
+                title: 'Data gagal diupdate'
+            })
+        }
+
     } else {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
+        let data = {
+            no_rawat: inputFilterNoRawat.value,
+            nip: decoded.username,
+            pemeriksaan: standardString,
+            kesadaran: "Compos Mentis",
+            tgl_perawatan: tgl_perawatan,
+            jam_rawat: jam_rawat,
+            keluhan: '-',
+            alergi: '-',
+            penilaian: '-',
+            instruksi: '-',
+            tensi: '-',
+            spo2: '99',
+            nadi: '-',
+            gcs: '15',
+            rtl: '-',
+            respirasi: '-',
+            tinggi: '-',
+            berat: '-',
+            suhu_tubuh: '-',
+            evaluasi: '-'
+        }
+        let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(data)
         })
-        Toast.fire({
-            icon: 'error',
-            title: 'Data Gagal Disimpan'
-        })
+        simpandata = await simpandata.json();
+        console.log(simpandata);
+        if (simpandata.status === true) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: 'Data Berhasil Disimpan'
+            })
+        } else {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'error',
+                title: 'Data Gagal Disimpan'
+            })
+        }
     }
+
 });

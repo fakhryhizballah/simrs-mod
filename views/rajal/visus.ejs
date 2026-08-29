@@ -5,7 +5,7 @@
       Pemeriksaan Visus dan Refraksi
     </h2>
     <div class="flex items-center space-x-4">
-      <button onclick="history.back()" class="flex items-center glass-button bg-gradient-to-r from-blue-500/40 to-cyan-500/40 hover:from-blue-500/60 hover:to-cyan-500/60 text-white font-bold py-2 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200">
+      <button onclick="if(document.referrer) { window.location.href = document.referrer; } else { history.back(); }" class="flex items-center glass-button bg-gradient-to-r from-blue-500/40 to-cyan-500/40 hover:from-blue-500/60 hover:to-cyan-500/60 text-white font-bold py-2 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
@@ -49,11 +49,13 @@
         <thead>
           <tr class="border-b border-white/15 text-xs text-white uppercase tracking-wider">
             <th class="px-4 py-3 font-semibold">Mata</th>
+            <th class="px-4 py-3 font-semibold">Visus Dasar</th>
             <th class="px-4 py-3 font-semibold">SPH</th>
             <th class="px-4 py-3 font-semibold">CYL</th>
             <th class="px-4 py-3 font-semibold">AXIS</th>
-            <th class="px-4 py-3 font-semibold">Visus CC</th>
+            <th class="px-4 py-3 font-semibold">Visus</th>
             <th class="px-4 py-3 font-semibold">ADD</th>
+            <th class="px-4 py-3 font-semibold">Prism Bar</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-white/10 text-white">
@@ -69,6 +71,9 @@
               </div>
             </td>
             <td class="px-4 py-3">
+              <input type="text" id="od-visus-dasar" list="visus-cc-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
               <input type="text" id="od-sph" list="sph-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
             </td>
             <td class="px-4 py-3">
@@ -78,10 +83,13 @@
               <input type="text" id="od-axis" list="axis-list" class="w-24 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none transition-all" disabled>
             </td>
             <td class="px-4 py-3">
-              <input type="text" id="od-visus-cc" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
+              <input type="text" id="od-visus-cc" list="visus-cc-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
             </td>
             <td class="px-4 py-3">
               <input type="text" id="od-add" list="add-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="od-prism-bar" list="prism-bar-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all">
             </td>
           </tr>
           <!-- OS (Mata Kiri) -->
@@ -96,6 +104,9 @@
               </div>
             </td>
             <td class="px-4 py-3">
+              <input type="text" id="os-visus-dasar" list="visus-cc-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
               <input type="text" id="os-sph" list="sph-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
             </td>
             <td class="px-4 py-3">
@@ -105,10 +116,13 @@
               <input type="text" id="os-axis" list="axis-list" class="w-24 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none transition-all" disabled>
             </td>
             <td class="px-4 py-3">
-              <input type="text" id="os-visus-cc" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
+              <input type="text" id="os-visus-cc" list="visus-cc-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
             </td>
             <td class="px-4 py-3">
               <input type="text" id="os-add" list="add-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
+            </td>
+            <td class="px-4 py-3">
+              <input type="text" id="os-prism-bar" list="prism-bar-list" class="w-24 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all">
             </td>
           </tr>
         </tbody>
@@ -133,35 +147,42 @@
 
 <!-- Suggestion Lists -->
 <datalist id="sph-list">
-  <% const sphValues = [-3.00, -2.75, -2.50, -2.25, -2.00, -1.75, -1.50, -1.25, -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 2.00]; %>
+  <% const sphValues = [-20.0, -18.0, -16.0, -15.0, -14.0, -13.0, -12.0, -11.0, -10.0, -9.50, -9.00, -8.50, -8.0, -7.50, -7.00, -6.50, -6.00, -5.75, -5.50, -5.25, -5.00, -4.75, -4.50, -4.25, -4.00, -3.75, -3.50, -3.25, -3.00, -2.75, -2.50, -2.25, -2.00, -1.75, -1.50, -1.25, -1.00, -0.75, -0.50, -0.25, 0.00, +0.25, +0.50, +0.75, +1.00, +1.25, +1.50, +1.75, +2.00,2.25, +2.50, +2.75, +3.00, +3.25, +3.50, +3.75, +4.00, +4.25, +4.50, +4.75, +5.00, +5.25, +5.50, +5.75, +6.00,6.50, +7.00, +7.50, +8.00, +8.50, +9.00, +9.50, +10.0,11.0, +12.0, +13.0, +14.0, +15.0, +16.0, +18.0, +20.0]; %>
   <% sphValues.forEach(val => { %>
-    <option value="<%= val.toFixed(2) %>"></option>
+    <option value="<%= val %>"></option>
   <% }); %>
 </datalist>
 
 <datalist id="cyl-list">
-  <% const cylValues = [-3.00, -2.75, -2.50, -2.25, -2.00, -1.75, -1.50, -1.25, -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 2.00]; %>
+  <% const cylValues = [-6.00, -5.50, -5.00,-4.50, -4.00, -3.75, -3.50, -3.25, -3.00, -2.75, -2.50, -2.25, -2.00, -1.75, -1.50, -1.25, -1.00, -0.75, -0.50, -0.25, 0.00, +0.25, +0.50, +0.75, +1.00, +1.25, +1.50, +1.75, +2.00,2.25, +2.50, +2.75, +3.00, +3.50, +4.00, +4.50, +5.00, +5.50, +6.00]; %>
   <% cylValues.forEach(val => { %>
     <option value="<%= val.toFixed(2) %>"></option>
   <% }); %>
 </datalist>
 
 <datalist id="axis-list">
-  <% for(let i = 1; i <= 180; i += 5) { %>
+  <% for(let i = 0; i <= 180; i += 5) { %>
     <option value="<%= i %>"></option>
   <% } %>
 </datalist>
 
-<datalist id="add-list">
-  <% const addValues = [0, 0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50]; %>
-  <% addValues.forEach(val => { %>
-    <option value="<%= val.toFixed(2) %>"></option>
+<datalist id="visus-cc-list">
+  <% const visusCCValues = ["6/6", "6/7.5", "6/9", "6/12", "6/15", "6/19", "6/24", "6/30", "6/38", "6/48", "6/60"]; %>
+  <% visusCCValues.forEach(val => { %>
+    <option value="<%= val %>"></option>
   <% }); %>
 </datalist>
 
-<datalist id="pd-list">
-  <% const pdValues = [60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; %>
-  <% pdValues.forEach(val => { %>
+<datalist id="add-list">
+  <% const addValues = ["+75","+100","+125","+150","+175","+200","+225","+250","+275","+300"]; %>
+  <% addValues.forEach(val => { %>
+    <option value="<%= val %>"></option>
+  <% }); %>
+</datalist>
+
+<datalist id="prism-bar-list">
+  <% const dpValues = [0.5, 1, 2, 3, 10]; %>
+  <% dpValues.forEach(val => { %>
     <option value="<%= val %>"></option>
   <% }); %>
 </datalist>

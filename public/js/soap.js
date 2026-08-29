@@ -139,6 +139,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                         <button onclick="editPemeriksaan(${index})" class="text-lg bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
                             Edit
                         </button>
+                        <button onclick="addRefaksi(${index})" class="text-lg bg-white hover:bg-gray-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm mx-2 transition">
+                            Refaksi
+                        </button>
                          </div>
                        
                     </div>
@@ -216,8 +219,33 @@ document.addEventListener('DOMContentLoaded', async function () {
             document.getElementById('status').value = 0;
 
             // Scroll ke atas (ke arah form)
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
+
+    };
+    window.addRefaksi = function (index) {
+        const data = currentRiwayatData[index];
+        if (!data) return;
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: 'Apakah Anda ingin Menimpa CPPT ' + data.pegawai.nama + '?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Tiru!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sessionStorage.setItem('SOAP', JSON.stringify(data));
+                location.href = '/rajal/visus';
+                return;
+                // updatePemeriksaan(data);
+            };
+            if (result.isDismissed) {
+                return;
+                // updatePemeriksaan(data);
+            };
+        });
 
     };
     window.copyPemeriksaan = function (index) {
@@ -235,6 +263,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 el.value = data[field] || '';
             }
         });
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         return;
 
     };
@@ -355,6 +384,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     fetchRiwayat();
 });
 
+document.getElementById('btn-refarkasi').addEventListener('click', async () => {
+    // hapus sesion storage SOAP
+    sessionStorage.removeItem("SOAP");
+
+});
 // 2. Fungsi untuk me-render array menjadi elemen HTML
 function renderLampiran(files) {
     const container = document.getElementById('container-lampiran');
