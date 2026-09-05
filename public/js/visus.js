@@ -14,6 +14,7 @@ if (dataSOAP) {
     document.getElementById('filter-nama').value = dataSOAP.nama;
     document.getElementById('filter-kd-poli').value = dataSOAP.kd_poli;
     document.getElementById('save-button').innerHTML = 'Update';
+    populateFormFromStandardString(dataSOAP.pemeriksaan)
 }
 
 document.getElementById('filter-no-rawat').value = await getCache('noRawat', 60 * 60 * 24 * 7);
@@ -398,3 +399,61 @@ document.getElementById('save-button').addEventListener('click', async () => {
         }
     }
 });
+
+function populateFormFromStandardString(str) {
+    // resetForm();
+    if (!str) return;
+
+    const sections = str.split('|').map(s => s.trim());
+
+    sections.forEach(section => {
+        // Parse OD & OS
+        if (section.startsWith('OD:') || section.startsWith('OS:')) {
+            const isOD = section.startsWith('OD:');
+            const prefix = isOD ? 'od-' : 'os-';
+
+            const vdMatch = section.match(/VD\s+([\w\/.]+)/i);
+            const sphMatch = section.match(/SPH\s+([+-]?[\d.]+)/i);
+            const cylMatch = section.match(/CYL\s+([+-]?[\d.]+)/i);
+            const axisMatch = section.match(/x\s+([\d.]+)/i);
+            const visusMatch = section.match(/V\s+([\w\/.]+)/i);
+            const addMatch = section.match(/ADD\s+([+-]?[\d.]+)/i);
+            const prismMatch = section.match(/PRISM\s+([\w\d.∆]+)/i);
+
+            if (vdMatch) document.getElementById(`${prefix}visus-dasar`).value = vdMatch[1];
+            if (sphMatch) document.getElementById(`${prefix}sph`).value = sphMatch[1];
+            if (cylMatch) document.getElementById(`${prefix}cyl`).value = cylMatch[1];
+            if (axisMatch) document.getElementById(`${prefix}axis`).value = axisMatch[1];
+            if (visusMatch) document.getElementById(`${prefix}visus-cc`).value = visusMatch[1];
+            if (addMatch) document.getElementById(`${prefix}add`).value = addMatch[1];
+            if (prismMatch) document.getElementById(`${prefix}prism-bar`).value = prismMatch[1];
+        }
+        // Parse PD
+        else if (section.startsWith('PD')) {
+            const pdMatch = section.match(/PD\s+([\d.]+)/i);
+            if (pdMatch) document.getElementById('pd-input').value = pdMatch[1];
+        }
+        // Parse Tonometri (Tio)
+        else if (section.startsWith('Tio:')) {
+            const tonoOdMatch = section.match(/OD\s+([\d.]+)/i);
+            const tonoOsMatch = section.match(/OS\s+([\d.]+)/i);
+            if (tonoOdMatch) document.getElementById('tonometri-od').value = tonoOdMatch[1];
+            if (tonoOsMatch) document.getElementById('tonometri-os').value = tonoOsMatch[1];
+        }
+        // Parse Buta Warna
+        else if (section.startsWith('Tes Buta Warna:')) {
+            const selectEl = document.getElementById('color-blindness');
+            if (selectEl) {
+                for (let opt of selectEl.options) {
+                    if (section.includes(opt.text)) {
+                        selectEl.value = opt.value;
+                        break;
+                    }
+                }
+            }
+        }
+    });
+
+    // toggleAxisDisabled(odCylInput, odAxisInput, 'focus:ring-red-400');
+    // toggleAxisDisabled(osCylInput, osAxisInput, 'focus:ring-blue-400');
+}

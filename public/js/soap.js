@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (!data) return;
         Swal.fire({
             title: 'Konfirmasi',
-            text: 'Apakah Anda ingin Menimpa CPPT ' + data.pegawai.nama + '?',
+            text: 'Apakah Anda ingin Menimpa data pemeriksaan?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
