@@ -5,12 +5,12 @@
       Pemeriksaan Visus dan Refraksi
     </h2>
     <div class="flex items-center space-x-4">
-      <button onclick="if(document.referrer) { window.location.href = document.referrer; } else { history.back(); }" class="flex items-center glass-button bg-gradient-to-r from-blue-500/40 to-cyan-500/40 hover:from-blue-500/60 hover:to-cyan-500/60 text-white font-bold py-2 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200">
+      <a href="/rajal/soap" class="inline-flex items-center glass-button bg-gradient-to-r from-blue-500/40 to-cyan-500/40 hover:from-blue-500/60 hover:to-cyan-500/60 text-white font-bold py-2 px-4 rounded-lg shadow-glass hover:shadow-glass-lg transition-all duration-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Kembali
-      </button>
+      </a>
     </div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-xl items-end">
@@ -131,13 +131,49 @@
   </div>
 
   <!-- Card Tambahan (Footer) -->
+ <!-- Card Detail Tambahan -->
   <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl mt-4">
-    <h2 class="text-xl font-semibold text-white/90 mb-4 border-b border-white/10 pb-2">Detail Tambahan</h2>
-    <div class="mb-6">
-      <label for="pd-input" class="block text-sm font-medium text-white mb-2">PD (Pupillary Distance):</label>
-      <input type="text" id="pd-input" list="pd-list" class="w-32 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/20 transition-all">
+    <h2 class="text-xl font-semibold text-white/90 mb-6 border-b border-white/10 pb-2">Detail Tambahan</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <!-- PD Field -->
+      <div>
+        <label for="pd-input" class="block text-sm font-medium text-white mb-2">PD (Pupillary Distance)</label>
+        <div class="relative">
+          <input type="text" id="pd-input" list="pd-list" placeholder="63" class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/20 transition-all">
+          <span class="absolute right-3 top-2.5 text-xs text-white/60">mm</span>
+        </div>
+      </div>
+
+      <!-- Tonometri OD & OS -->
+      <div>
+        <label class="block text-sm font-medium text-white mb-2">Tonometri (Tekanan Bola Mata)</label>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="relative">
+            <span class="absolute left-2.5 top-2.5 text-xs font-bold text-red-400">OD</span>
+            <input type="text" id="tonometri-od" placeholder="15" class="w-full pl-9 pr-8 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-red-400 focus:bg-white/20 transition-all text-sm">
+            <span class="absolute right-2 top-2.5 text-[10px] text-white/50">mmHg</span>
+          </div>
+          <div class="relative">
+            <span class="absolute left-2.5 top-2.5 text-xs font-bold text-blue-400">OS</span>
+            <input type="text" id="tonometri-os" placeholder="16" class="w-full pl-8 pr-8 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 transition-all text-sm">
+            <span class="absolute right-2 top-2.5 text-[10px] text-white/50">mmHg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tes Buta Warna -->
+      <div>
+        <label for="color-blindness" class="block text-sm font-medium text-white mb-2">Pemeriksaan Buta Warna</label>
+        <select id="color-blindness" class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:bg-white/20 transition-all [&>option]:bg-slate-800 [&>option]:text-white">
+          <option value="" selected>-- Tidak Dicek --</option>
+          <option value="normal">Tidak Buta Warna (Normal)</option>
+          <option value="partial">Buta Warna Parsial</option>
+          <option value="total">Buta Warna Total</option>
+        </select>
+      </div>
     </div>
-    <div class="flex flex-wrap gap-4">
+    <div class="flex flex-wrap gap-4 pt-2 border-t border-white/10">
       <button id="save-button" class="px-5 py-2.5 rounded-xl bg-emerald-500/80 hover:bg-emerald-500 text-white font-semibold backdrop-blur-sm border border-emerald-400/30 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all active:scale-95">
         Simpan Data
       </button>

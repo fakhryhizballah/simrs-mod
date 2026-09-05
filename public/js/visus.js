@@ -1,27 +1,28 @@
 import { getCookieValue } from "./cookie.js";
 import { setCache, getCache } from "./indexdb.js";
+
 let API_URL = getCookieValue('API_URL');
 let token = getCookieValue('token');
 let decoded = JSON.parse(getCookieValue('decoded'));
 let sessionStorage = window.sessionStorage;
 let dataSOAP = JSON.parse(sessionStorage.getItem('SOAP'));
+
 if (dataSOAP) {
-    console.log(dataSOAP)
+    console.log(dataSOAP);
     document.getElementById('filter-no-rawat').value = dataSOAP.no_rawat;
     document.getElementById('filter-no-rm').value = dataSOAP.no_rm;
     document.getElementById('filter-nama').value = dataSOAP.nama;
     document.getElementById('filter-kd-poli').value = dataSOAP.kd_poli;
     document.getElementById('save-button').innerHTML = 'Update';
-
 }
-
 
 document.getElementById('filter-no-rawat').value = await getCache('noRawat', 60 * 60 * 24 * 7);
 document.getElementById('filter-no-rm').value = await getCache('noRm', 60 * 60 * 24 * 7);
 document.getElementById('filter-nama').value = await getCache('namapx', 60 * 60 * 24 * 7);
 document.getElementById('filter-kd-poli').value = await getCache('kdPoli', 60 * 60 * 24 * 7);
+
 const inputFilterNoRawat = document.getElementById('filter-no-rawat');
-const inputFilterNoRm = document.getElementById('filter-no-rm')
+const inputFilterNoRm = document.getElementById('filter-no-rm');
 const selectFilterStatus = document.getElementById('filter-status');
 const inputFilterKdPoli = document.getElementById('filter-kd-poli');
 
@@ -83,10 +84,27 @@ function getRefraksiSummaryString() {
     const osStr = getEyeString('OS', 'os-visus-dasar', 'os-sph', 'os-cyl', 'os-axis', 'os-visus-cc', 'os-add', 'os-prism-bar');
     const pd = getValue('pd-input');
 
+    // Tonometri & Buta Warna
+    const tonoOd = getValue('tonometri-od');
+    const tonoOs = getValue('tonometri-os');
+    const colorBlindnessVal = getValue('color-blindness');
+
     const parts = [];
     if (odStr) parts.push(odStr);
     if (osStr) parts.push(osStr);
     if (pd) parts.push(`PD:${pd}`);
+
+    if (tonoOd || tonoOs) {
+        const tonoData = [];
+        if (tonoOd) tonoData.push(`OD:${tonoOd}`);
+        if (tonoOs) tonoData.push(`OS:${tonoOs}`);
+        parts.push(`TONO [${tonoData.join(' ')}]`);
+    }
+
+    // Hanya ditambahkan jika diisi / tidak kosong
+    if (colorBlindnessVal) {
+        parts.push(`BW:${colorBlindnessVal}`);
+    }
 
     return parts.join(' | ');
 }
@@ -117,7 +135,9 @@ function parseRefraksiString(str) {
     const result = {
         od: { visusDasar: '', sph: '', cyl: '', axis: '', visusCc: '', add: '', prismBar: '' },
         os: { visusDasar: '', sph: '', cyl: '', axis: '', visusCc: '', add: '', prismBar: '' },
-        pd: ''
+        pd: '',
+        tonometri: { od: '', os: '' },
+        colorBlindness: ''
     };
 
     if (!str || typeof str !== 'string') return result;
@@ -128,6 +148,8 @@ function parseRefraksiString(str) {
         const odMatch = section.match(/^OD\s*\[(.*?)\]$/i);
         const osMatch = section.match(/^OS\s*\[(.*?)\]$/i);
         const pdMatch = section.match(/^PD:([\d.]+)/i);
+        const tonoMatch = section.match(/^TONO\s*\[(.*?)\]$/i);
+        const bwMatch = section.match(/^BW:(\w+)/i);
 
         if (odMatch) {
             result.od = parseEyeDetails(odMatch[1]);
@@ -135,6 +157,13 @@ function parseRefraksiString(str) {
             result.os = parseEyeDetails(osMatch[1]);
         } else if (pdMatch) {
             result.pd = pdMatch[1];
+        } else if (tonoMatch) {
+            const tonoOdMatch = tonoMatch[1].match(/OD:([\d.]+)/i);
+            const tonoOsMatch = tonoMatch[1].match(/OS:([\d.]+)/i);
+            if (tonoOdMatch) result.tonometri.od = tonoOdMatch[1];
+            if (tonoOsMatch) result.tonometri.os = tonoOsMatch[1];
+        } else if (bwMatch) {
+            result.colorBlindness = bwMatch[1];
         }
     });
 
@@ -161,7 +190,10 @@ function populateRefraksiForm(refraksiString) {
         'os-add': parsedData.os.add,
         'os-prism-bar': parsedData.os.prismBar,
 
-        'pd-input': parsedData.pd
+        'pd-input': parsedData.pd,
+        'tonometri-od': parsedData.tonometri.od,
+        'tonometri-os': parsedData.tonometri.os,
+        'color-blindness': parsedData.colorBlindness
     };
 
     Object.keys(fieldMap).forEach(id => {
@@ -194,7 +226,6 @@ function getRefraksiStandardString() {
         const add = getValue(addId);
         const prismBar = getValue(prismBarId);
 
-        // Jika tidak ada data sama sekali untuk mata ini
         if (!visusDasar && !sph && !cyl && !visus && !add && !prismBar) return null;
 
         const parts = [];
@@ -215,10 +246,36 @@ function getRefraksiStandardString() {
     const osString = formatEyeData('OS', 'os-visus-dasar', 'os-sph', 'os-cyl', 'os-axis', 'os-visus-cc', 'os-add', 'os-prism-bar');
     const pd = getValue('pd-input');
 
+    // Tonometri
+    const tonoOd = getValue('tonometri-od');
+    const tonoOs = getValue('tonometri-os');
+
+    // Buta Warna Check: Hanya ambil text jika value tidak kosong
+    const colorBlindnessVal = getValue('color-blindness');
+    let colorBlindnessText = null;
+    if (colorBlindnessVal) {
+        const colorBlindnessEl = document.getElementById('color-blindness');
+        if (colorBlindnessEl && colorBlindnessEl.selectedIndex !== -1) {
+            colorBlindnessText = colorBlindnessEl.options[colorBlindnessEl.selectedIndex].text;
+        }
+    }
+
     const result = [];
     if (odString) result.push(odString);
     if (osString) result.push(osString);
     if (pd) result.push(`PD ${pd}mm`);
+
+    if (tonoOd || tonoOs) {
+        const tonoParts = [];
+        if (tonoOd) tonoParts.push(`OD ${tonoOd} mmHg`);
+        if (tonoOs) tonoParts.push(`OS ${tonoOs} mmHg`);
+        result.push(`Tio: ${tonoParts.join(', ')}`);
+    }
+
+    // Hanya masukan ke string jika ada pemeriksaan buta warna yang dipilih
+    if (colorBlindnessText) {
+        result.push(`Tes Buta Warna: ${colorBlindnessText}`);
+    }
 
     return result.join(' | ');
 }
@@ -230,11 +287,28 @@ document.getElementById('save-button').addEventListener('click', async () => {
 
     console.log('Output String Refraksi:', summaryString);
     console.log('Parsed JSON Object:', parsedData);
-    console.log(standardString);
+    console.log('Standard String:', standardString);
+
     let tgl_perawatan = new Date().toISOString().split('T')[0];
     let jam_rawat = new Date().toTimeString().split(' ')[0];
-    // alert(`Data Ringkas Refraksi:\n${summaryString}`);
+
     let dataSOAP = JSON.parse(sessionStorage.getItem('SOAP'));
+
+    const showToast = (icon, title) => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+        Toast.fire({ icon, title });
+    };
+
     if (dataSOAP) {
         let data = {
             no_rawat: inputFilterNoRawat.value,
@@ -257,50 +331,26 @@ document.getElementById('save-button').addEventListener('click', async () => {
             berat: dataSOAP.berat,
             suhu_tubuh: dataSOAP.suhu_tubuh,
             evaluasi: dataSOAP.evaluasi
-        }
-        let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify(data)
-        }
-        )
-        simpandata = await simpandata.json();
-        console.log(simpandata);
-        if (simpandata.status == true) {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-            Toast.fire({
-                icon: 'success',
-                title: 'Data diupdate'
-            })
-        } else {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-            Toast.fire({
-                icon: 'error',
-                title: 'Data gagal diupdate'
-            })
+        };
+
+        try {
+            let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            });
+            simpandata = await simpandata.json();
+            if (simpandata.status === true) {
+                showToast('success', 'Data diupdate');
+            } else {
+                showToast('error', 'Data gagal diupdate');
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('error', 'Terjadi kesalahan sistem');
         }
 
     } else {
@@ -325,50 +375,26 @@ document.getElementById('save-button').addEventListener('click', async () => {
             berat: '-',
             suhu_tubuh: '-',
             evaluasi: '-'
-        }
-        let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify(data)
-        })
-        simpandata = await simpandata.json();
-        console.log(simpandata);
-        if (simpandata.status === true) {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-            Toast.fire({
-                icon: 'success',
-                title: 'Data Berhasil Disimpan'
-            })
-        } else {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-            Toast.fire({
-                icon: 'error',
-                title: 'Data Gagal Disimpan'
-            })
+        };
+
+        try {
+            let simpandata = await fetch(API_URL + '/api/ralan/pemeriksaan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            });
+            simpandata = await simpandata.json();
+            if (simpandata.status === true) {
+                showToast('success', 'Data Berhasil Disimpan');
+            } else {
+                showToast('error', 'Data Gagal Disimpan');
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('error', 'Terjadi kesalahan sistem');
         }
     }
-
 });
