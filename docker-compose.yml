@@ -4,6 +4,7 @@ services:
   app:
     build: .
     container_name: simrs-webService
+    restart: unless-stopped
     ports:
       - "3000:3000"
     volumes:
